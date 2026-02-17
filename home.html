@@ -1,0 +1,3282 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portofolio | Muhamad Andhika</title>
+    
+    <!-- External Libraries -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --neon-cyan: #00f3ff;
+            --neon-pink: #ff00ff;
+            --neon-purple: #bc13fe;
+            --dark-bg: #030507;
+            --panel: #0a0f16;
+            --grid-color: rgba(0, 243, 255, 0.07);
+        }
+
+        * {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: var(--dark-bg);
+            color: #cbd5e1;
+            overflow-x: hidden;
+            background-image: 
+                linear-gradient(var(--grid-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+
+        .mono { font-family: 'JetBrains Mono', monospace; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--dark-bg); }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--neon-cyan); }
+
+        /* Cyber Text Shadow */
+        .cyber-text-shadow {
+            text-shadow: 2px 2px 0px rgba(0, 243, 255, 0.2), -1px -1px 0px rgba(255, 0, 255, 0.2);
+        }
+
+        /* Bento Grid Layout */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 1.5rem;
+            grid-auto-rows: minmax(100px, auto);
+        }
+
+        /* Glass Panel */
+        .glass-panel {
+            background: rgba(10, 15, 22, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .glass-panel:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px -10px rgba(0, 243, 255, 0.1);
+        }
+
+        .glass-panel::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 40px; height: 40px;
+            border-top: 2px solid var(--neon-cyan);
+            border-left: 2px solid var(--neon-cyan);
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .glass-panel::before {
+            content: '';
+            position: absolute;
+            bottom: 0; right: 0; width: 40px; height: 40px;
+            border-bottom: 2px solid var(--neon-pink);
+            border-right: 2px solid var(--neon-pink);
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        /* Marquee Animation */
+        .marquee-container { overflow: hidden; white-space: nowrap; }
+        .marquee-content { display: inline-block; animation: marquee 30s linear infinite; }
+        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+        /* ================================
+           ENHANCED SCROLL ANIMATIONS
+           ================================ */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(60px);
+            transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                        transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .fade-in-left {
+            opacity: 0;
+            transform: translateX(-60px);
+            transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                        transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .fade-in-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .fade-in-right {
+            opacity: 0;
+            transform: translateX(60px);
+            transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                        transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .fade-in-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .scale-in {
+            opacity: 0;
+            transform: scale(0.8);
+            transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                        transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .scale-in.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .delay-100 { transition-delay: 0.1s; }
+        .delay-200 { transition-delay: 0.2s; }
+        .delay-300 { transition-delay: 0.3s; }
+        .delay-400 { transition-delay: 0.4s; }
+        .delay-500 { transition-delay: 0.5s; }
+
+        /* Navbar */
+        nav {
+            transition: background 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+        }
+
+        nav.scrolled {
+            background: rgba(3, 5, 7, 0.97) !important;
+            box-shadow: 0 4px 30px rgba(0, 243, 255, 0.08);
+            border-bottom-color: rgba(0, 243, 255, 0.15) !important;
+        }
+
+        /* Logo */
+        .nav-logo {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            font-size: 1.1rem;
+            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-pink));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 0.05em;
+            position: relative;
+        }
+
+        .nav-logo-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: var(--neon-cyan);
+            border-radius: 50%;
+            margin-right: 8px;
+            box-shadow: 0 0 8px var(--neon-cyan);
+            animation: navDotPulse 2s ease-in-out infinite;
+            vertical-align: middle;
+            position: relative;
+            top: -1px;
+        }
+
+        @keyframes navDotPulse {
+            0%, 100% { box-shadow: 0 0 6px var(--neon-cyan); transform: scale(1); }
+            50% { box-shadow: 0 0 14px var(--neon-cyan), 0 0 28px var(--neon-cyan); transform: scale(1.2); }
+        }
+
+        /* Mobile Hamburger */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: var(--neon-cyan);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .hamburger { display: flex; }
+
+            .mobile-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(3, 5, 7, 0.98);
+                border-bottom: 1px solid rgba(0, 243, 255, 0.15);
+                padding: 1rem 1.5rem;
+                flex-direction: column;
+                gap: 1rem;
+                backdrop-filter: blur(12px);
+            }
+
+            .mobile-menu.open {
+                display: flex;
+            }
+        }
+
+        /* Active Navigation Link */
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--neon-cyan);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        .nav-link.active {
+            color: var(--neon-cyan) !important;
+        }
+
+        /* Language Toggle Switch */
+        .lang-switch {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(10, 15, 22, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 4px;
+        }
+
+        .lang-btn {
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: transparent;
+            color: #64748b;
+            border: none;
+        }
+
+        .lang-btn.active {
+            background: var(--neon-cyan);
+            color: #000;
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
+        }
+
+        /* Tab Animations */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .tab-btn.active {
+            background: rgba(0, 243, 255, 0.1);
+            border-color: var(--neon-cyan);
+            color: var(--neon-cyan);
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
+        }
+
+        /* Carousel Styles */
+        .certifications-carousel {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(0, 243, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .certifications-carousel:hover {
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.1);
+            transform: scale(1.02);
+        }
+        .carousel-container { overflow: hidden; width: 100%; aspect-ratio: 4/3; }
+        .carousel-track { display: flex; height: 100%; transition: transform 0.5s ease; }
+        .cert-slide { min-width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; padding: 10px; }
+        .cert-slide img { 
+            max-width: 100%; max-height: 100%; 
+            object-fit: contain;
+            filter: grayscale(0.8) contrast(1.2);
+            transition: 0.3s;
+        }
+        .cert-slide img:hover { filter: grayscale(0); }
+        .carousel-nav {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            background: rgba(0,0,0,0.8); color: var(--neon-cyan);
+            border: 1px solid var(--neon-cyan); padding: 5px 10px; cursor: pointer; z-index: 10;
+            transition: all 0.3s ease;
+        }
+        .carousel-nav:hover {
+            background: var(--neon-cyan);
+            color: #000;
+        }
+        .carousel-nav.prev { left: 10px; }
+        .carousel-nav.next { right: 10px; }
+
+        /* ================================
+           LOADING SCREEN STYLES
+           ================================ */
+        #loadingScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #030507 0%, #0a0f16 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+
+        #loadingScreen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loading-logo {
+            font-size: 4rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-pink), var(--neon-cyan));
+            background-size: 200% 100%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientShift 3s ease infinite;
+            text-shadow: 0 0 30px rgba(0, 243, 255, 0.5);
+            margin-bottom: 2rem;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .loading-bar-container {
+            width: 300px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            margin-bottom: 1.5rem;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .loading-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-pink));
+            border-radius: 10px;
+            width: 0%;
+            transition: width 0.3s ease;
+            box-shadow: 0 0 20px var(--neon-cyan), 0 0 40px var(--neon-pink);
+            position: relative;
+        }
+
+        .loading-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shimmer 1.5s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .animate-shimmer {
+            animation: shimmer 2s infinite;
+        }
+
+        .loading-percentage {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--neon-cyan);
+            margin-bottom: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+            text-shadow: 0 0 10px var(--neon-cyan);
+        }
+
+        .loading-text {
+            font-size: 0.875rem;
+            color: #64748b;
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: 0.1em;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        .loading-text::after {
+            content: '';
+            animation: dots 1.5s steps(4, end) infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% { content: ''; }
+            40% { content: '.'; }
+            60% { content: '..'; }
+            80%, 100% { content: '...'; }
+        }
+
+        .loading-spinner {
+            width: 100px;
+            height: 100px;
+            border: 3px solid transparent;
+            border-top-color: var(--neon-cyan);
+            border-right-color: var(--neon-pink);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 2rem;
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.3);
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .glitch {
+            position: relative;
+        }
+
+        .glitch::before,
+        .glitch::after {
+            content: 'MAMR';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: inherit;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .glitch::before {
+            animation: glitch-1 2s infinite;
+            clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+        }
+
+        .glitch::after {
+            animation: glitch-2 2s infinite;
+            clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
+        }
+
+        @keyframes glitch-1 {
+            0%, 100% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+        }
+
+        @keyframes glitch-2 {
+            0%, 100% { transform: translate(0); }
+            20% { transform: translate(2px, -2px); }
+            40% { transform: translate(2px, 2px); }
+            60% { transform: translate(-2px, -2px); }
+            80% { transform: translate(-2px, 2px); }
+        }
+
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: var(--neon-cyan);
+            border-radius: 50%;
+            animation: float 10s infinite ease-in-out;
+            opacity: 0.3;
+            box-shadow: 0 0 10px var(--neon-cyan);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            25% { transform: translateY(-100px) translateX(50px); }
+            50% { transform: translateY(-200px) translateX(-50px); }
+            75% { transform: translateY(-100px) translateX(50px); }
+        }
+
+        /* ================================
+           MAIN CONTENT ENTRANCE ANIMATION
+           ================================ */
+        .main-content {
+            opacity: 0;
+        }
+
+        .main-content.show {
+            animation: contentFadeIn 1.2s ease forwards;
+        }
+
+        @keyframes contentFadeIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* CV Button Special Style */
+        a[download] {
+            position: relative;
+            background: linear-gradient(135deg, var(--neon-cyan), var(--neon-pink)) !important;
+            color: #000 !important;
+            font-weight: 700;
+            box-shadow: 0 4px 15px rgba(0, 243, 255, 0.3);
+            border: 2px solid transparent;
+            overflow: hidden;
+            animation: glow-pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes glow-pulse {
+            0%, 100% {
+                box-shadow: 
+                    0 4px 15px rgba(0, 243, 255, 0.3),
+                    0 0 20px rgba(0, 243, 255, 0.2);
+            }
+            50% {
+                box-shadow: 
+                    0 4px 20px rgba(0, 243, 255, 0.5),
+                    0 0 40px rgba(0, 243, 255, 0.4),
+                    0 0 60px rgba(255, 0, 255, 0.3);
+            }
+        }
+
+        a[download]:hover {
+            transform: translateY(-3px) !important;
+            box-shadow: 0 8px 30px rgba(0, 243, 255, 0.5), 0 8px 30px rgba(255, 0, 255, 0.3);
+            animation: none;
+        }
+
+        a[download]::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+
+        a[download]:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        a[download] i[data-lucide="download"] {
+            animation: bounce-download 2s infinite;
+        }
+
+        @keyframes bounce-download {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-4px); }
+        }
+
+        a[download]:hover i[data-lucide="download"] {
+            animation: pulse-download 0.5s ease;
+        }
+
+        @keyframes pulse-download {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        /* ================================
+           PROJECT DETAIL MODAL
+           ================================ */
+        .project-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 9998;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .project-modal.active {
+            display: flex;
+            animation: modalFadeIn 0.3s ease forwards;
+        }
+
+        @keyframes modalFadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        .project-modal-content {
+            background: rgba(10, 15, 22, 0.95);
+            border: 1px solid rgba(0, 243, 255, 0.3);
+            border-radius: 1rem;
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: modalSlideIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                transform: translateY(-50px) scale(0.9);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+        }
+
+        .project-modal-content::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .project-modal-content::-webkit-scrollbar-thumb {
+            background: var(--neon-cyan);
+            border-radius: 3px;
+        }
+
+        /* ================================
+           CERTIFICATE FULLSCREEN MODAL
+           ================================ */
+        .cert-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.98);
+            backdrop-filter: blur(15px);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .cert-modal.active {
+            display: flex;
+            animation: modalFadeIn 0.3s ease forwards;
+        }
+
+        .cert-modal-container {
+            position: relative;
+            max-width: 90%;
+            max-height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cert-modal img {
+            max-width: 100%;
+            max-height: 90vh;
+            object-fit: contain;
+            border: 2px solid var(--neon-cyan);
+            border-radius: 0.5rem;
+            box-shadow: 0 0 50px rgba(0, 243, 255, 0.3);
+            animation: certZoomIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        @keyframes certZoomIn {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .cert-nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 56px;
+            height: 56px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid var(--neon-cyan);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--neon-cyan);
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .cert-nav-btn:hover {
+            background: var(--neon-cyan);
+            color: #000;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .cert-nav-btn.prev {
+            left: -80px;
+        }
+
+        .cert-nav-btn.next {
+            right: -80px;
+        }
+
+        .cert-counter {
+            position: absolute;
+            bottom: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--neon-cyan);
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            color: var(--neon-cyan);
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            width: 48px;
+            height: 48px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid var(--neon-cyan);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--neon-cyan);
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .modal-close-btn:hover {
+            background: var(--neon-cyan);
+            color: #000;
+            transform: rotate(90deg);
+        }
+
+        /* Gallery Modal */
+        #galleryModal {
+            backdrop-filter: blur(10px);
+            animation: fadeIn 0.3s ease;
+        }
+
+        #galleryModal.hidden {
+            display: none !important;
+        }
+
+        #galleryModal img {
+            animation: scaleIn 0.3s ease;
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        #galleryThumbnails img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 0.5rem;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0.5;
+        }
+
+        #galleryThumbnails img:hover {
+            opacity: 1;
+            border-color: var(--neon-cyan);
+        }
+
+        #galleryThumbnails img.active {
+            opacity: 1;
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.5);
+        }
+
+        .experience-card {
+            transition: all 0.3s ease;
+        }
+
+        .experience-card:hover {
+            transform: translateY(-2px);
+        }
+
+        /* ================================
+           PHOTO FRAME — Creative Doc Strips
+           ================================ */
+        .photo-frame {
+            position: relative;
+            aspect-ratio: 1 / 1;
+            overflow: hidden;
+            border-radius: 6px;
+            cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.08);
+            transition: all 0.35s ease;
+            background: #0a0f16;
+        }
+
+        .photo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            transition: transform 0.5s ease, filter 0.4s ease;
+            filter: grayscale(0.4) contrast(1.1);
+        }
+
+        .photo-frame:hover img {
+            transform: scale(1.1);
+            filter: grayscale(0) contrast(1.05);
+        }
+
+        /* Scanline overlay */
+        .photo-frame::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0,0,0,0.08) 2px,
+                rgba(0,0,0,0.08) 4px
+            );
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Number badge */
+        .photo-num {
+            position: absolute;
+            top: 5px;
+            left: 6px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 9px;
+            font-weight: 700;
+            z-index: 3;
+            pointer-events: none;
+            letter-spacing: 0.05em;
+        }
+
+        /* Zoom overlay */
+        .photo-overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 2;
+        }
+
+        .photo-frame:hover .photo-overlay {
+            opacity: 1;
+        }
+
+        /* Cyan variant */
+        .photo-frame.cyan {
+            border-color: rgba(0,243,255,0.15);
+        }
+        .photo-frame.cyan:hover {
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 16px rgba(0,243,255,0.25), inset 0 0 16px rgba(0,243,255,0.04);
+        }
+        .photo-frame.cyan .photo-num { color: var(--neon-cyan); }
+        .photo-frame.cyan .photo-overlay {
+            background: rgba(0,243,255,0.15);
+            color: var(--neon-cyan);
+        }
+
+        /* Pink variant */
+        .photo-frame.pink {
+            border-color: rgba(255,0,255,0.15);
+        }
+        .photo-frame.pink:hover {
+            border-color: var(--neon-pink);
+            box-shadow: 0 0 16px rgba(255,0,255,0.25), inset 0 0 16px rgba(255,0,255,0.04);
+        }
+        .photo-frame.pink .photo-num { color: var(--neon-pink); }
+        .photo-frame.pink .photo-overlay {
+            background: rgba(255,0,255,0.15);
+            color: var(--neon-pink);
+        }
+
+        /* ================================
+           RESPONSIVE STYLES
+           ================================ */
+        @media (max-width: 768px) {
+            .cert-nav-btn.prev {
+                left: 10px;
+            }
+            
+            .cert-nav-btn.next {
+                right: 10px;
+            }
+            
+            .cert-nav-btn {
+                width: 44px;
+                height: 44px;
+            }
+            
+            .modal-close-btn {
+                top: 1rem;
+                right: 1rem;
+            }
+        }
+    </style>
+</head>
+<body class="selection:bg-cyan-500 selection:text-black">
+    <!-- Loading Screen -->
+    <div id="loadingScreen">
+        <div class="particles" id="particles"></div>
+        <div class="loading-spinner"></div>
+        <div class="loading-logo glitch">MAMR</div>
+        <div class="loading-percentage" id="loadingPercentage">0%</div>
+        <div class="loading-bar-container">
+            <div class="loading-bar" id="loadingBar"></div>
+        </div>
+        <div class="loading-text">LOADING</div>
+        <div class="loading-text">Harap Tunggu</div>
+    </div>
+
+    <!-- Top Navigation HUD — OUTSIDE main-content so opacity animation doesn't affect fixed positioning -->
+    <nav id="mainNav" class="fixed top-0 w-full z-[9990] border-b border-white/5 bg-black/80 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-6 h-16 flex justify-between items-center">
+            <!-- Logo / Branding -->
+            <a href="#dashboard" class="flex items-center gap-2" style="text-decoration:none;">
+                <span class="nav-logo-dot"></span>
+                <span class="nav-logo">MAMR<span style="-webkit-text-fill-color: rgba(100,116,139,0.6); font-size: 0.7rem;">.DEV</span></span>
+            </a>
+
+            <!-- Desktop Nav Links -->
+            <div class="hidden md:flex gap-8 mono text-xs text-slate-400">
+                <a href="#dashboard" class="nav-link hover:text-cyan-400 transition-colors" data-i18n="nav.home">BERANDA</a>
+                <a href="#database" class="nav-link hover:text-cyan-400 transition-colors" data-i18n="nav.profile">PROFIL</a>
+                <a href="#showcase" class="nav-link hover:text-cyan-400 transition-colors" data-i18n="nav.portfolio">PORTOFOLIO</a>
+            </div>
+
+            <!-- Right Side -->
+            <div class="flex items-center gap-4">
+                <div class="lang-switch">
+                    <button class="lang-btn active" data-lang="id">ID</button>
+                    <button class="lang-btn" data-lang="en">EN</button>
+                </div>
+                <div class="hamburger md:hidden" id="hamburgerBtn" onclick="toggleMobileMenu()">
+                    <span></span><span></span><span></span>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div class="mobile-menu md:hidden" id="mobileMenu">
+            <a href="#dashboard" class="nav-link mono text-sm text-slate-400 hover:text-cyan-400 transition-colors" onclick="closeMobileMenu()" data-i18n="nav.home">BERANDA</a>
+            <a href="#database" class="nav-link mono text-sm text-slate-400 hover:text-cyan-400 transition-colors" onclick="closeMobileMenu()" data-i18n="nav.profile">PROFIL</a>
+            <a href="#showcase" class="nav-link mono text-sm text-slate-400 hover:text-cyan-400 transition-colors" onclick="closeMobileMenu()" data-i18n="nav.portfolio">PORTOFOLIO</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <!-- SECTION 1: HERO DASHBOARD -->
+        <section id="dashboard" class="pt-32 pb-20 px-6 max-w-7xl mx-auto min-h-screen flex flex-col justify-center relative">
+            <div class="absolute top-1/4 right-0 w-96 h-96 bg-cyan-500/10 rounded-full blur-[100px] pointer-events-none"></div>
+            <div class="absolute bottom-0 left-0 w-64 h-64 bg-pink-500/10 rounded-full blur-[80px] pointer-events-none"></div>
+
+            <div class="grid md:grid-cols-12 gap-12 items-center">
+                <!-- Text Content -->
+                <div class="md:col-span-7 z-10 order-2 md:order-1">
+                    <div class="mono text-cyan-500 mb-4 flex items-center gap-4 fade-in-left">
+                        <span class="inline-block w-12 h-[1px] bg-cyan-500"></span>
+                        <span data-i18n="hero.greeting">HALOO SEMUANYAA!</span>
+                    </div>
+                    
+                    <h1 class="text-5xl md:text-7xl font-bold leading-none mb-6 cyber-text-shadow tracking-tight fade-in-left delay-100">
+                        MUHAMAD<br>ANDHIKA<br>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-pink-500">MAHAPUTRA</span>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-pink-500">ROHMAN</span>
+                    </h1>
+
+                    <!-- Bidang Minat -->
+                    <div class="mb-8 space-y-3">
+                        <div class="flex items-center gap-3 text-lg md:text-xl text-slate-300 font-medium group fade-in-left delay-200">
+                            <i data-lucide="chevron-right" class="text-pink-500 group-hover:translate-x-1 transition-transform"></i>
+                            <span class="border-b border-transparent group-hover:border-pink-500 transition-colors" data-i18n="hero.role1">Web Developer</span>
+                        </div>
+                        <div class="flex items-center gap-3 text-lg md:text-xl text-slate-300 font-medium group fade-in-left delay-300">
+                            <i data-lucide="chevron-right" class="text-cyan-500 group-hover:translate-x-1 transition-transform"></i>
+                            <span class="border-b border-transparent group-hover:border-cyan-500 transition-colors" data-i18n="hero.role2">Network System Administrator</span>
+                        </div>
+                        <div class="flex items-center gap-3 text-lg md:text-xl text-slate-300 font-medium group fade-in-left delay-400">
+                            <i data-lucide="chevron-right" class="text-purple-500 group-hover:translate-x-1 transition-transform"></i>
+                            <span class="border-b border-transparent group-hover:border-purple-500 transition-colors" data-i18n="hero.role3">Network Engineer</span>
+                        </div>
+                    </div>
+
+                    <p class="text-slate-400 max-w-xl leading-relaxed mb-8 border-l-2 border-slate-700 pl-6 text-sm md:text-base fade-in-left delay-500" data-i18n="hero.description">
+                        Menggabungkan keahlian infrastruktur jaringan dengan pengembangan web modern untuk menciptakan solusi teknologi yang aman, terukur, dan efisien.
+                    </p>
+                    
+                    <div class="flex flex-wrap gap-4 fade-in-up delay-500">
+                        <a href="https://drive.google.com/file/d/1DxQanH4OO_7IPZ46PcCv2kaHGkDlcBET/view?usp=drive_link" download="Muhamad_Andhika_CV.pdf" class="glass-panel px-8 py-4 mono text-sm hover:bg-white/5 transition-all flex items-center gap-3 group">
+                            <span data-i18n="hero.cta">LIHAT_CV</span> 
+                            <i data-lucide="download" class="w-4 h-4 group-hover:translate-y-1 transition-transform"></i>
+                        </a>
+                        <a href="https://github.com/andhikamahaputra" target="_blank" class="px-8 py-4 border border-white/10 hover:border-cyan-400 transition-all mono text-sm flex items-center gap-2">
+                            <i data-lucide="github" class="w-4 h-4"></i> <span data-i18n="hero.github">REPO_GITHUB</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Hero Visual / Avatar -->
+                <div class="md:col-span-5 relative flex justify-center md:justify-end order-1 md:order-2">
+                    <div class="relative w-72 h-80 md:w-96 md:h-[500px] scale-in delay-300">
+                        <div class="absolute inset-0 border-2 border-white/10 clip-path-polygon"></div>
+                        <div class="absolute -top-4 -left-4 w-20 h-20 border-t-4 border-l-4 border-cyan-500 rounded-tl-xl"></div>
+                        <div class="absolute -bottom-4 -right-4 w-20 h-20 border-b-4 border-r-4 border-pink-500 rounded-br-xl"></div>
+                        
+                        <div class="w-full h-full overflow-hidden bg-slate-800 relative group">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10"></div>
+                            <img src="/img/blla.png" alt="Muhamad Andhika" class="w-full h-full object-cover grayscale contrast-125 group-hover:grayscale-0 transition-all duration-700">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: RUNNING STATUS BAR -->
+        <div class="border-y border-white/10 bg-black py-3 overflow-hidden">
+            <div class="marquee-container">
+                <div class="marquee-content mono text-sm tracking-widest text-slate-500" data-i18n="marquee.text">
+                    SYSTEM STATUS: ONLINE // WEB DEVELOPER // NETWORK ENGINEER // NETWORK SYSTEM ADMINISTRATOR // STATUS SISTEM: ONLINE // PENGEMBANG WEB // TEKNISI JARINGAN // ADMINISTRATOR SISTEM JARINGAM //
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 3: DATABASE (BENTO GRID PROFILE) -->
+        <section id="database" class="py-32 px-6 max-w-7xl mx-auto">
+            <div class="flex items-end justify-between mb-12 fade-in-up">
+                <div>
+                    <h2 class="text-4xl font-bold mb-2 flex items-center gap-3">
+                        <i data-lucide="database" class="text-cyan-500"></i> <span data-i18n="profile.title">LATAR_BELAKANG</span>
+                    </h2>
+                </div>
+            </div>
+
+            <div class="bento-grid">
+                <div class="col-span-12 md:col-span-8 glass-panel p-8 flex flex-col justify-center fade-in-left">
+                    <h3 class="text-2xl font-bold mb-4 text-white" data-i18n="profile.background.title">Tentang Saya</h3>
+                    <p class="text-slate-400 leading-relaxed mb-4" data-i18n="profile.background.p1">
+                        Berasal dari Purwakarta, Jawa Barat. Lulusan SMK Negeri 1 Purwakarta (TKJ) dan kini mahasiswa semester 4 Teknik Informatika.
+                    </p>
+                    <p class="text-slate-400 leading-relaxed" data-i18n="profile.background.p2">
+                        Memiliki passion mendalam dalam mengonfigurasi jaringan kompleks (Cisco/Mikrotik) dan membangun aplikasi web (Laravel/PHP). Kombinasi "Infrastruktur Keras" dan "Pengembangan Lunak" adalah kekuatan utama saya.
+                    </p>
+                </div>
+
+                <div class="col-span-6 md:col-span-2 glass-panel p-6 flex flex-col items-center justify-center text-center fade-in-right delay-100">
+                    <i data-lucide="award" class="w-8 h-8 text-pink-500 mb-2"></i>
+                    <div class="text-3xl font-bold text-white">4 Tahun</div>
+                    <div class="mono text-[10px] text-slate-500" data-i18n="profile.stats.certificates">PENGALAMAN BELAJAR IT</div>
+                </div>
+
+                <div class="col-span-6 md:col-span-2 glass-panel p-6 flex flex-col items-center justify-center text-center fade-in-right delay-200">
+                    <i data-lucide="briefcase" class="w-8 h-8 text-cyan-500 mb-2"></i>
+                    <div class="text-3xl font-bold text-white">6</div>
+                    <div class="mono text-[10px] text-slate-500" data-i18n="profile.stats.projects">PROJEK</div>
+                </div>
+
+                <!-- EDUCATION SECTION - NEW -->
+                <div class="col-span-12 glass-panel p-8 fade-in-up delay-300">
+                    <div class="flex items-center gap-3 mb-6">
+                        <i data-lucide="graduation-cap" class="w-6 h-6 text-cyan-500"></i>
+                        <h3 class="text-2xl font-bold text-white" data-i18n="profile.education.title">Pendidikan</h3>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <!-- SMK Education Card -->
+                        <div class="relative group">
+                            <div class="absolute inset-0 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 rounded-lg blur-xl group-hover:blur-2xl transition-all"></div>
+                            <div class="relative bg-black/40 border border-cyan-500/30 rounded-lg p-6 hover:border-cyan-500 transition-all">
+                                <!-- Badge/Icon -->
+                                <div class="flex items-start justify-between mb-4">
+                                    <div class="w-12 h-12 bg-cyan-500/10 rounded-lg flex items-center justify-center border border-cyan-500/30">
+                                        <i data-lucide="school" class="w-6 h-6 text-cyan-500"></i>
+                                    </div>
+                                    <div class="px-3 py-1 bg-cyan-500/10 border border-cyan-500/30 rounded-full">
+                                        <span class="text-xs text-cyan-400 font-bold mono">2020 - 2023</span>
+                                    </div>
+                                </div>
+                                
+                                <!-- School Info -->
+                                <h4 class="text-xl font-bold text-white mb-2" data-i18n="profile.education.smk.name">SMK Negeri 1 Purwakarta</h4>
+                                <p class="text-cyan-400 text-sm mb-3 font-medium" data-i18n="profile.education.smk.major">Teknik Komputer dan Jaringan</p>
+                                <p class="text-slate-400 text-sm mb-4" data-i18n="profile.education.smk.desc">
+                                    Fokus pada konfigurasi jaringan, server administration, dan troubleshooting sistem komputer.
+                                </p>
+                                
+                                <!-- GPA Badge -->
+                                <div class="flex items-center gap-3">
+                                    <div class="flex items-center gap-2">
+                                        <i data-lucide="award" class="w-4 h-4 text-cyan-400"></i>
+                                        <span class="text-xs text-slate-400" data-i18n="profile.education.smk.grade">Nilai Akhir:</span>
+                                    </div>
+                                    <div class="px-4 py-2 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 border border-cyan-500/50 rounded-lg">
+                                        <span class="text-2xl font-bold text-cyan-400 mono">84.92</span>
+                                    </div>
+                                </div>
+
+                                <!-- Documentation — always-visible photo strip -->
+                                <div class="mt-5">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <div class="w-1.5 h-1.5 bg-cyan-500 rounded-full animate-pulse"></div>
+                                        <span class="mono text-[9px] text-slate-500 tracking-widest">// DOKUMENTASI</span>
+                                    </div>
+                                    <div class="grid grid-cols-3 gap-2 mb-3">
+                                        <div class="photo-frame cyan" onclick="openGallery('smk', 0)">
+                                            <img src="img/smk1.jpeg" alt="SMK 1">
+                                            <div class="photo-overlay"><i data-lucide="zoom-in" class="w-5 h-5"></i></div>
+                                            <span class="photo-num">01</span>
+                                        </div>
+                                        <div class="photo-frame cyan" onclick="openGallery('smk', 1)">
+                                            <img src="img/smk2.jpeg" alt="SMK 2">
+                                            <div class="photo-overlay"><i data-lucide="zoom-in" class="w-5 h-5"></i></div>
+                                            <span class="photo-num">02</span>
+                                        </div>
+                                        <div class="photo-frame cyan" onclick="openGallery('smk', 2)">
+                                            <img src="img/smk3.jpeg" alt="SMK 3">
+                                            <div class="photo-overlay"><i data-lucide="zoom-in" class="w-5 h-5"></i></div>
+                                            <span class="photo-num">03</span>
+                                        </div>
+                                    </div>
+                                    <button onclick="openGallery('smk', 0)" class="inline-flex items-center gap-2 text-xs text-cyan-400 hover:text-cyan-300 transition-colors group/btn">
+                                        <i data-lucide="maximize-2" class="w-3 h-3"></i>
+                                        <span>Buka Gallery Fullscreen</span>
+                                        <i data-lucide="arrow-right" class="w-3 h-3 group-hover/btn:translate-x-1 transition-transform"></i>
+                                    </button>
+                                </div>
+                                
+                                <!-- Decorative Corner -->
+                                <div class="absolute top-0 right-0 w-20 h-20 border-t-2 border-r-2 border-cyan-500/20 rounded-tr-lg"></div>
+                                <div class="absolute bottom-0 left-0 w-20 h-20 border-b-2 border-l-2 border-cyan-500/20 rounded-bl-lg"></div>
+                            </div>
+                        </div>
+
+                        <!-- University Education Card -->
+                        <div class="relative group">
+                            <div class="absolute inset-0 bg-gradient-to-r from-pink-500/10 to-purple-500/10 rounded-lg blur-xl group-hover:blur-2xl transition-all"></div>
+                            <div class="relative bg-black/40 border border-pink-500/30 rounded-lg p-6 hover:border-pink-500 transition-all">
+                                <!-- Badge/Icon -->
+                                <div class="flex items-start justify-between mb-4">
+                                    <div class="w-12 h-12 bg-pink-500/10 rounded-lg flex items-center justify-center border border-pink-500/30">
+                                        <i data-lucide="book-open" class="w-6 h-6 text-pink-500"></i>
+                                    </div>
+                                    <div class="flex gap-2">
+                                        <div class="px-3 py-1 bg-pink-500/10 border border-pink-500/30 rounded-full">
+                                            <span class="text-xs text-pink-400 font-bold mono">2023 - NOW</span>
+                                        </div>
+                                        <div class="px-3 py-1 bg-green-500/10 border border-green-500/30 rounded-full animate-pulse">
+                                            <span class="text-xs text-green-400 font-bold">ACTIVE</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- University Info -->
+                                <h4 class="text-xl font-bold text-white mb-2" data-i18n="profile.education.uni.name">STT Wastukancana Purwakarta</h4>
+                                <p class="text-pink-400 text-sm mb-3 font-medium" data-i18n="profile.education.uni.major">Teknik Informatika - S1</p>
+                                <p class="text-slate-400 text-sm mb-4" data-i18n="profile.education.uni.desc">
+                                    Mendalami software engineering, web development, dan artificial intelligence untuk solusi teknologi modern.
+                                </p>
+                                
+                                <!-- IPK Badge with Progress -->
+                                <div class="space-y-3">
+                                    <div class="flex items-center gap-3">
+                                        <div class="flex items-center gap-2">
+                                            <i data-lucide="trophy" class="w-4 h-4 text-pink-400"></i>
+                                            <span class="text-xs text-slate-400">IPK Saat Ini:</span>
+                                        </div>
+                                        <div class="px-4 py-2 bg-gradient-to-r from-pink-500/20 to-purple-500/20 border border-pink-500/50 rounded-lg">
+                                            <span class="text-2xl font-bold text-pink-400 mono">3.88</span>
+                                            <span class="text-xs text-slate-400 ml-1">/ 4.00</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- IPK Visual Progress Bar -->
+                                    <div class="w-full">
+                                        <div class="h-2 bg-slate-800 rounded-full overflow-hidden">
+                                            <div class="h-full bg-gradient-to-r from-pink-500 to-purple-500 rounded-full shadow-[0_0_10px_#ff00ff]" style="width: 97%;">
+                                                <div class="h-full w-full bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shimmer"></div>
+                                            </div>
+                                        </div>
+                                        <div class="flex justify-between mt-1">
+                                            <span class="text-[10px] text-slate-500 mono">Semester 4</span>
+                                            <span class="text-[10px] text-pink-400 mono font-bold">Cumlaude Track</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Documentation — always-visible photo strip, pink theme -->
+                                <div class="mt-5">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <div class="w-1.5 h-1.5 bg-pink-500 rounded-full animate-pulse"></div>
+                                        <span class="mono text-[9px] text-slate-500 tracking-widest">// DOKUMENTASI</span>
+                                    </div>
+                                    <div class="grid grid-cols-3 gap-2 mb-3">
+                                        <div class="photo-frame pink" onclick="openGallery('stt', 0)">
+                                            <img src="img/stt1.jpeg" alt="STT 1">
+                                            <div class="photo-overlay"><i data-lucide="zoom-in" class="w-5 h-5"></i></div>
+                                            <span class="photo-num">01</span>
+                                        </div>
+                                        <div class="photo-frame pink" onclick="openGallery('stt', 1)">
+                                            <img src="img/stt2.jpeg" alt="STT 2">
+                                            <div class="photo-overlay"><i data-lucide="zoom-in" class="w-5 h-5"></i></div>
+                                            <span class="photo-num">02</span>
+                                        </div>
+                                        <div class="photo-frame pink" onclick="openGallery('stt', 2)">
+                                            <img src="img/stt3.jpeg" alt="STT 3">
+                                            <div class="photo-overlay"><i data-lucide="zoom-in" class="w-5 h-5"></i></div>
+                                            <span class="photo-num">03</span>
+                                        </div>
+                                    </div>
+                                    <button onclick="openGallery('stt', 0)" class="inline-flex items-center gap-2 text-xs text-pink-400 hover:text-pink-300 transition-colors group/btn">
+                                        <i data-lucide="maximize-2" class="w-3 h-3"></i>
+                                        <span>Buka Gallery Fullscreen</span>
+                                        <i data-lucide="arrow-right" class="w-3 h-3 group-hover/btn:translate-x-1 transition-transform"></i>
+                                    </button>
+                                </div>
+                                
+                                <!-- Decorative Corner -->
+                                <div class="absolute top-0 right-0 w-20 h-20 border-t-2 border-r-2 border-pink-500/20 rounded-tr-lg"></div>
+                                <div class="absolute bottom-0 left-0 w-20 h-20 border-b-2 border-l-2 border-pink-500/20 rounded-bl-lg"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Education Timeline Decoration -->
+                    <div class="mt-6 flex items-center justify-center gap-2">
+                        <div class="w-3 h-3 bg-cyan-500 rounded-full animate-pulse"></div>
+                        <div class="w-32 h-[2px] bg-gradient-to-r from-cyan-500 via-pink-500 to-purple-500"></div>
+                        <div class="w-3 h-3 bg-pink-500 rounded-full animate-pulse" style="animation-delay: 0.5s;"></div>
+                    </div>
+                </div>
+
+                <!-- EXPERIENCE SECTION -->
+                <div class="col-span-12 glass-panel p-8 fade-in-up delay-300">
+                    <div class="mono text-xs text-pink-500 mb-6" data-i18n="profile.experience.subtitle">// LOG_PENGALAMAN_KERJA</div>
+                    
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <!-- FREELANCE IT CONSULTANT -->
+                        <div class="experience-card group">
+                            <div class="relative border-l-2 border-cyan-500/30 pl-6 ml-2 hover:border-cyan-500 transition-colors">
+                                <div class="absolute -left-[9px] top-1 w-4 h-4 bg-cyan-500 rounded-full border-2 border-dark-bg group-hover:scale-125 transition-transform"></div>
+                                <div class="mono text-[10px] text-cyan-400 mb-2" data-i18n="profile.experience.exp1.period">2023 - SEKARANG</div>
+                                <h4 class="font-bold text-white text-xl mb-2" data-i18n="profile.experience.exp1.title">Konsultan IT Freelance</h4>
+                                <p class="text-sm text-slate-400 mb-4" data-i18n="profile.experience.exp1.desc">
+                                    Penyusunan laporan PKL, pembuatan CV ATS-Friendly, dan video editing untuk personal branding klien.
+                                </p>
+                                <!-- Photo Strip — always visible -->
+                                <div class="mt-3 mb-3">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <div class="w-1.5 h-1.5 bg-cyan-500 rounded-full animate-pulse"></div>
+                                        <span class="mono text-[9px] text-slate-500 tracking-widest">// DOKUMENTASI</span>
+                                    </div>
+                                    <div class="grid grid-cols-3 gap-2">
+                                        <div class="photo-frame cyan" onclick="openGallery('freelance', 0)">
+                                            <img src="img/WhatsApp Image 2026-02-17 at 11.15.58 AM.jpeg" alt="Freelance 1">
+                                            <div class="photo-overlay"><i data-lucide="zoom-in" class="w-5 h-5"></i></div>
+                                            <span class="photo-num">01</span>
+                                        </div>
+                                        <div class="photo-frame cyan" onclick="openGallery('freelance', 1)">
+                                            <img src="img/menu_lumbeefNEW.png" alt="Freelance 2">
+                                            <div class="photo-overlay"><i data-lucide="zoom-in" class="w-5 h-5"></i></div>
+                                            <span class="photo-num">02</span>
+                                        </div>
+                                        <div class="photo-frame cyan" onclick="openGallery('freelance', 2)">
+                                            <img src="img/lap.jpeg" alt="Freelance 3">
+                                            <div class="photo-overlay"><i data-lucide="zoom-in" class="w-5 h-5"></i></div>
+                                            <span class="photo-num">03</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button onclick="openGallery('freelance', 0)" class="inline-flex items-center gap-2 text-xs text-cyan-400 hover:text-cyan-300 transition-colors group/btn">
+                                    <i data-lucide="maximize-2" class="w-3 h-3"></i>
+                                    <span>Buka Gallery Fullscreen</span>
+                                    <i data-lucide="arrow-right" class="w-3 h-3 group-hover/btn:translate-x-1 transition-transform"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- PT. MABITO KARYA INDONESIA -->
+                        <div class="experience-card group">
+                            <div class="relative border-l-2 border-pink-500/30 pl-6 ml-2 hover:border-pink-500 transition-colors">
+                                <div class="absolute -left-[9px] top-1 w-4 h-4 bg-pink-500 rounded-full border-2 border-dark-bg group-hover:scale-125 transition-transform"></div>
+                                <div class="mono text-[10px] text-pink-400 mb-2" data-i18n="profile.experience.exp2.period">JUL - DES 2023</div>
+                                <h4 class="font-bold text-white text-xl mb-2" data-i18n="profile.experience.exp2.title">PT. Mabito Karya Indonesia</h4>
+                                <p class="text-sm text-slate-400 mb-4" data-i18n="profile.experience.exp2.desc">
+                                    Operator Produksi (Perakitan Axioo) & Quality Control. Manajemen multimedia dokumentasi operasional.
+                                </p>
+                                <!-- Photo Strip — always visible -->
+                                <div class="mt-3 mb-3">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <div class="w-1.5 h-1.5 bg-pink-500 rounded-full animate-pulse"></div>
+                                        <span class="mono text-[9px] text-slate-500 tracking-widest">// DOKUMENTASI</span>
+                                    </div>
+                                    <div class="grid grid-cols-3 gap-2">
+                                        <div class="photo-frame pink" onclick="openGallery('mabito', 0)">
+                                            <img src="img/pkl1.jpeg" alt="Mabito 1">
+                                            <div class="photo-overlay"><i data-lucide="zoom-in" class="w-5 h-5"></i></div>
+                                            <span class="photo-num">01</span>
+                                        </div>
+                                        <div class="photo-frame pink" onclick="openGallery('mabito', 1)">
+                                            <img src="img/pkl2.jpeg" alt="Mabito 2">
+                                            <div class="photo-overlay"><i data-lucide="zoom-in" class="w-5 h-5"></i></div>
+                                            <span class="photo-num">02</span>
+                                        </div>
+                                        <div class="photo-frame pink" onclick="openGallery('mabito', 2)">
+                                            <img src="img/pkl3.jpeg" alt="Mabito 3">
+                                            <div class="photo-overlay"><i data-lucide="zoom-in" class="w-5 h-5"></i></div>
+                                            <span class="photo-num">03</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button onclick="openGallery('mabito', 0)" class="inline-flex items-center gap-2 text-xs text-pink-400 hover:text-pink-300 transition-colors group/btn">
+                                    <i data-lucide="maximize-2" class="w-3 h-3"></i>
+                                    <span>Buka Gallery Fullscreen</span>
+                                    <i data-lucide="arrow-right" class="w-3 h-3 group-hover/btn:translate-x-1 transition-transform"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- GALLERY MODAL -->
+        <div id="galleryModal" class="fixed inset-0 bg-black/98 z-[9999] hidden items-center justify-center p-4" style="backdrop-filter: blur(15px);">
+            <button onclick="closeGallery()" class="modal-close-btn">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+
+            <div class="max-w-5xl w-full">
+                <div class="relative mb-4">
+                    <img id="galleryMainImage" src="" alt="Work Documentation" class="w-full max-h-[65vh] object-contain rounded-lg border border-cyan-500/30 mx-auto" style="display:block;">
+                    
+                    <button onclick="prevImage()" class="absolute left-2 top-1/2 -translate-y-1/2 w-12 h-12 bg-black/80 border border-cyan-500 rounded-full flex items-center justify-center text-cyan-400 hover:bg-cyan-500 hover:text-black transition-all">
+                        <i data-lucide="chevron-left" class="w-6 h-6"></i>
+                    </button>
+                    <button onclick="nextImage()" class="absolute right-2 top-1/2 -translate-y-1/2 w-12 h-12 bg-black/80 border border-cyan-500 rounded-full flex items-center justify-center text-cyan-400 hover:bg-cyan-500 hover:text-black transition-all">
+                        <i data-lucide="chevron-right" class="w-6 h-6"></i>
+                    </button>
+                </div>
+
+                <!-- Caption + Counter -->
+                <div class="flex items-center justify-between px-2 mb-4">
+                    <p id="galleryCaption" class="mono text-xs text-slate-400">—</p>
+                    <span id="galleryCounter" class="mono text-xs text-cyan-400 bg-cyan-500/10 border border-cyan-500/30 px-3 py-1 rounded-full">1 / 1</span>
+                </div>
+
+                <!-- Thumbnails -->
+                <div class="flex gap-2 overflow-x-auto pb-2 justify-center" id="galleryThumbnails"></div>
+            </div>
+        </div>
+
+        <!-- SECTION 4: PORTFOLIO SHOWCASE -->
+        <section id="showcase" class="py-20 bg-black/50 border-y border-white/5 relative min-h-screen">
+            <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10"></div>
+            
+            <div class="max-w-7xl mx-auto px-6 relative z-10">
+                <div class="text-center mb-12 fade-in-up">
+                    <h2 class="text-4xl md:text-5xl font-bold mb-4" data-i18n="portfolio.title">PORTOFOLIO DIGITAL</h2>
+                    <p class="text-slate-400 max-w-2xl mx-auto" data-i18n="portfolio.description">
+                        Kumpulan projek yang pernah saya buat, sertifikasi kompetensi, dan beberapa kemampuan teknis.
+                    </p>
+                </div>
+
+                <!-- Tab Navigation -->
+                <div class="flex flex-wrap justify-center gap-4 mb-12 fade-in-up delay-100">
+                    <button class="tab-btn active px-6 py-3 border border-white/10 rounded-full mono text-sm hover:bg-white/5 transition-all" onclick="switchTab('projects')">
+                        <span data-i18n="portfolio.tabs.projects">PROJEK SAYA</span>
+                    </button>
+                    <button class="tab-btn px-6 py-3 border border-white/10 rounded-full mono text-sm hover:bg-white/5 transition-all" onclick="switchTab('certificates')">
+                        <span data-i18n="portfolio.tabs.certificates">SERTIFIKAT</span>
+                    </button>
+                    <button class="tab-btn px-6 py-3 border border-white/10 rounded-full mono text-sm hover:bg-white/5 transition-all" onclick="switchTab('skills')">
+                        <span data-i18n="portfolio.tabs.skills">SKILL & APLIKASI</span>
+                    </button>
+                </div>
+
+                <!-- TAB 1: PROYEK SAYA -->
+                <div id="projects" class="tab-content active">
+                    <div class="grid md:grid-cols-3 gap-8">
+                        <!-- Project 1 -->
+                        <div class="glass-panel p-0 overflow-hidden group fade-in-up">
+                            <div class="h-48 bg-slate-800 relative overflow-hidden">
+                                <img src="/img/p0.png" alt="Game Ular" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            </div>
+                            <div class="p-6">
+                                <h3 class="text-xl font-bold text-white mb-2" data-i18n="portfolio.projects.project1.title">Game Ular 8Bit</h3>
+                                <p class="text-slate-400 text-sm mb-4" data-i18n="portfolio.projects.project1.desc">Permainan klasik dengan sentuhan retro modern.</p>
+                                <div class="flex gap-2 flex-wrap mb-4">
+                                    <span class="text-[10px] mono bg-cyan-500/10 text-cyan-400 px-2 py-1 rounded">HTML</span>
+                                    <span class="text-[10px] mono bg-cyan-500/10 text-cyan-400 px-2 py-1 rounded">CSS</span>
+                                    <span class="text-[10px] mono bg-cyan-500/10 text-cyan-400 px-2 py-1 rounded">JS</span>
+                                </div>
+                                <button onclick="openProjectModal('project1')" class="w-full px-4 py-2 bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/20 hover:border-cyan-500 transition-all flex items-center justify-center gap-2 group/btn">
+                                    <span>LIHAT DETAIL</span>
+                                    <i data-lucide="arrow-right" class="w-4 h-4 group-hover/btn:translate-x-1 transition-transform"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Project 2 -->
+                        <div class="glass-panel p-0 overflow-hidden group fade-in-up delay-100">
+                            <div class="h-48 bg-slate-800 relative overflow-hidden">
+                                <img src="/img/p5.png" alt="Jadwal Kuliah" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            </div>
+                            <div class="p-6">
+                                <h3 class="text-xl font-bold text-white mb-2" data-i18n="portfolio.projects.project2.title">Sistem Jadwal Kuliah</h3>
+                                <p class="text-slate-400 text-sm mb-4" data-i18n="portfolio.projects.project2.desc">Manajemen jadwal mahasiswa yang efisien dan terstruktur.</p>
+                                <div class="flex gap-2 flex-wrap mb-4">
+                                    <span class="text-[10px] mono bg-pink-500/10 text-pink-400 px-2 py-1 rounded">LARAVEL</span>
+                                    <span class="text-[10px] mono bg-pink-500/10 text-pink-400 px-2 py-1 rounded">PHP</span>
+                                    <span class="text-[10px] mono bg-pink-500/10 text-pink-400 px-2 py-1 rounded">MYSQL</span>
+                                </div>
+                                <button onclick="openProjectModal('project2')" class="w-full px-4 py-2 bg-pink-500/10 border border-pink-500/30 text-pink-400 hover:bg-pink-500/20 hover:border-pink-500 transition-all flex items-center justify-center gap-2 group/btn">
+                                    <span>LIHAT DETAIL</span>
+                                    <i data-lucide="arrow-right" class="w-4 h-4 group-hover/btn:translate-x-1 transition-transform"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Project 3 -->
+                        <div class="glass-panel p-0 overflow-hidden group fade-in-up delay-200">
+                            <div class="h-48 bg-slate-800 relative overflow-hidden">
+                                <img src="img/p2.png" alt="Dedicated Server" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            </div>
+                            <div class="p-6">
+                                <h3 class="text-xl font-bold text-white mb-2" data-i18n="portfolio.projects.project4.title">Dedicated Hosting Server</h3>
+                                <p class="text-slate-400 text-sm mb-4" data-i18n="portfolio.projects.project4.desc">Exclusive physical server management for high performance and maximum security.</p>
+                                <div class="flex gap-2 flex-wrap mb-4">
+                                    <span class="text-[10px] mono bg-blue-500/10 text-blue-400 px-2 py-1 rounded">LINUX DEBIAN</span>
+                                    <span class="text-[10px] mono bg-blue-500/10 text-blue-400 px-2 py-1 rounded">WEBMIN</span>
+                                    <span class="text-[10px] mono bg-blue-500/10 text-blue-400 px-2 py-1 rounded">VIRTUALBOX</span>
+                                </div>
+                                <button onclick="openProjectModal('project4')" class="w-full px-4 py-2 bg-blue-500/10 border border-blue-500/30 text-blue-400 hover:bg-blue-500/20 hover:border-blue-500 transition-all flex items-center justify-center gap-2 group/btn">
+                                    <span>LIHAT DETAIL</span>
+                                    <i data-lucide="arrow-right" class="w-4 h-4 group-hover/btn:translate-x-1 transition-transform"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Project 4 -->
+                        <div class="glass-panel p-0 overflow-hidden group fade-in-up delay-300">
+                            <div class="h-48 bg-slate-800 relative overflow-hidden">
+                                <img src="img/p4.png" alt="VPS" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            </div>
+                            <div class="p-6">
+                                <h3 class="text-xl font-bold text-white mb-2" data-i18n="portfolio.projects.project5.title">Virtual Private Server</h3>
+                                <p class="text-slate-400 text-sm mb-4" data-i18n="portfolio.projects.project5.desc">Flexible virtual server implementation with efficient resource scalability.</p>
+                                <div class="flex gap-2 flex-wrap mb-4">
+                                    <span class="text-[10px] mono bg-cyan-500/10 text-cyan-400 px-2 py-1 rounded">VIRTUALBOX</span>
+                                    <span class="text-[10px] mono bg-cyan-500/10 text-cyan-400 px-2 py-1 rounded">LINUX DEBIAN</span>
+                                    <span class="text-[10px] mono bg-cyan-500/10 text-cyan-400 px-2 py-1 rounded">PROXMOX</span>
+                                </div>
+                                <button onclick="openProjectModal('project5')" class="w-full px-4 py-2 bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/20 hover:border-cyan-500 transition-all flex items-center justify-center gap-2 group/btn">
+                                    <span>LIHAT DETAIL</span>
+                                    <i data-lucide="arrow-right" class="w-4 h-4 group-hover/btn:translate-x-1 transition-transform"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Project 5 -->
+                        <div class="glass-panel p-0 overflow-hidden group fade-in-up delay-400">
+                            <div class="h-48 bg-slate-800 relative overflow-hidden">
+                                <img src="img/p3.png" alt="Network Monitoring" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            </div>
+                            <div class="p-6">
+                                <h3 class="text-xl font-bold text-white mb-2" data-i18n="portfolio.projects.project6.title">Network Control & Monitoring</h3>
+                                <p class="text-slate-400 text-sm mb-4" data-i18n="portfolio.projects.project6.desc">Real-time dashboard for centralized traffic control and network health monitoring.</p>
+                                <div class="flex gap-2 flex-wrap mb-4">
+                                    <span class="text-[10px] mono bg-emerald-500/10 text-emerald-400 px-2 py-1 rounded">CACTI</span>
+                                    <span class="text-[10px] mono bg-emerald-500/10 text-emerald-400 px-2 py-1 rounded">VIRTUALBOX</span>
+                                    <span class="text-[10px] mono bg-emerald-500/10 text-emerald-400 px-2 py-1 rounded">LINUX DEBIAN</span>
+                                </div>
+                                <button onclick="openProjectModal('project6')" class="w-full px-4 py-2 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/20 hover:border-emerald-500 transition-all flex items-center justify-center gap-2 group/btn">
+                                    <span>LIHAT DETAIL</span>
+                                    <i data-lucide="arrow-right" class="w-4 h-4 group-hover/btn:translate-x-1 transition-transform"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Project 6 -->
+                        <div class="glass-panel p-0 overflow-hidden group fade-in-up delay-500">
+                            <div class="h-48 bg-slate-800 relative overflow-hidden">
+                                <img src="/img/p1.jpg" alt="VPN" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            </div>
+                            <div class="p-6">
+                                <h3 class="text-xl font-bold text-white mb-2" data-i18n="portfolio.projects.project7.title">Virtual Private Network</h3>
+                                <p class="text-slate-400 text-sm mb-4" data-i18n="portfolio.projects.project7.desc">Implementasi jaringan pribadi dengan enkripsi tingkat tinggi untuk transmisi data yang aman.</p>
+                                <div class="flex gap-2 flex-wrap mb-4">
+                                    <span class="text-[10px] mono bg-orange-500/10 text-orange-400 px-2 py-1 rounded">OPENVPN</span>
+                                    <span class="text-[10px] mono bg-orange-500/10 text-orange-400 px-2 py-1 rounded">ENKRIPSI</span>
+                                </div>
+                                <button onclick="openProjectModal('project7')" class="w-full px-4 py-2 bg-orange-500/10 border border-orange-500/30 text-orange-400 hover:bg-orange-500/20 hover:border-orange-500 transition-all flex items-center justify-center gap-2 group/btn">
+                                    <span>LIHAT DETAIL</span>
+                                    <i data-lucide="arrow-right" class="w-4 h-4 group-hover/btn:translate-x-1 transition-transform"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 2: SERTIFIKAT -->
+                <div id="certificates" class="tab-content">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;">
+                        <!-- Carousel 1 -->
+                        <div class="certifications-carousel fade-in-up" onclick="openCertModal('img/mpy1.png')">
+                            <div class="carousel-container">
+                                <div class="carousel-track">
+                                    <div class="cert-slide"><img src="img/mpy1.png" alt="Sertifikat 1" /></div>
+                                    <div class="cert-slide"><img src="img/mpy2.png" alt="Sertifikat 2" /></div>
+                                </div>
+                            </div>
+                            <button class="carousel-nav prev" onclick="event.stopPropagation()">❮</button>
+                            <button class="carousel-nav next" onclick="event.stopPropagation()">❯</button>
+                        </div>
+
+                        <!-- Carousel 2 -->
+                        <div class="certifications-carousel fade-in-up delay-100" onclick="openCertModal('img/bd1.png')">
+                            <div class="carousel-container">
+                                <div class="carousel-track">
+                                    <div class="cert-slide"><img src="img/bd1.png" alt="Sertifikat 3" /></div>
+                                    <div class="cert-slide"><img src="img/bd2.png" alt="Sertifikat 4" /></div>
+                                </div>
+                            </div>
+                            <button class="carousel-nav prev" onclick="event.stopPropagation()">❮</button>
+                            <button class="carousel-nav next" onclick="event.stopPropagation()">❯</button>
+                        </div>
+
+                        <!-- Carousel 3 -->
+                        <div class="certifications-carousel fade-in-up delay-200" onclick="openCertModal('img/bpd1.png')">
+                            <div class="carousel-container">
+                                <div class="carousel-track">
+                                    <div class="cert-slide"><img src="img/bpd1.png" alt="Sertifikat 5" /></div>
+                                    <div class="cert-slide"><img src="img/bpd2.png" alt="Sertifikat 6" /></div>
+                                </div>
+                            </div>
+                            <button class="carousel-nav prev" onclick="event.stopPropagation()">❮</button>
+                            <button class="carousel-nav next" onclick="event.stopPropagation()">❯</button>
+                        </div>
+
+                        <!-- Carousel 4 -->
+                        <div class="certifications-carousel fade-in-up delay-300" onclick="openCertModal('img/ac.png')">
+                            <div class="carousel-container">
+                                <div class="carousel-track">
+                                    <div class="cert-slide"><img src="img/ac.png" alt="Sertifikat 7" /></div>
+                                </div>
+                            </div>
+                            <button class="carousel-nav prev" onclick="event.stopPropagation()">❮</button>
+                            <button class="carousel-nav next" onclick="event.stopPropagation()">❯</button>
+                        </div>
+
+                        <!-- Carousel 5 -->
+                        <div class="certifications-carousel fade-in-up delay-400" onclick="openCertModal('img/mtcna.png')">
+                            <div class="carousel-container">
+                                <div class="carousel-track">
+                                    <div class="cert-slide"><img src="img/mtcna.png" alt="Sertifikat 9" /></div>
+                                </div>
+                            </div>
+                            <button class="carousel-nav prev" onclick="event.stopPropagation()">❮</button>
+                            <button class="carousel-nav next" onclick="event.stopPropagation()">❯</button>
+                        </div>
+
+                        <!-- Carousel 6 -->
+                        <div class="certifications-carousel fade-in-up delay-500" onclick="openCertModal('img/ics.png')">
+                            <div class="carousel-container">
+                                <div class="carousel-track">
+                                    <div class="cert-slide"><img src="img/ics.png" alt="Sertifikat 11" /></div>
+                                    <div class="cert-slide"><img src="img/ics1.png" alt="Sertifikat 12" /></div>
+                                </div>
+                            </div>
+                            <button class="carousel-nav prev" onclick="event.stopPropagation()">❮</button>
+                            <button class="carousel-nav next" onclick="event.stopPropagation()">❯</button>
+                        </div>
+
+                        <!-- Carousel 7 -->
+                        <div class="certifications-carousel fade-in-up" onclick="openCertModal('img/nb.png')">
+                            <div class="carousel-container">
+                                <div class="carousel-track">
+                                    <div class="cert-slide"><img src="img/nb.png" alt="Sertifikat 11" /></div>
+                                    <div class="cert-slide"><img src="img/nb1.png" alt="Sertifikat 12" /></div>
+                                </div>
+                            </div>
+                            <button class="carousel-nav prev" onclick="event.stopPropagation()">❮</button>
+                            <button class="carousel-nav next" onclick="event.stopPropagation()">❯</button>
+                        </div>
+
+                        <!-- Carousel 8 -->
+                        <div class="certifications-carousel fade-in-up delay-100" onclick="openCertModal('img/nd.png')">
+                            <div class="carousel-container">
+                                <div class="carousel-track">
+                                    <div class="cert-slide"><img src="img/nd.png" alt="Sertifikat 11" /></div>
+                                    <div class="cert-slide"><img src="img/nd1.png" alt="Sertifikat 12" /></div>
+                                </div>
+                            </div>
+                            <button class="carousel-nav prev" onclick="event.stopPropagation()">❮</button>
+                            <button class="carousel-nav next" onclick="event.stopPropagation()">❯</button>
+                        </div>
+
+                        <!-- Carousel 9 -->
+                        <div class="certifications-carousel fade-in-up delay-200" onclick="openCertModal('img/ibm.png')">
+                            <div class="carousel-container">
+                                <div class="carousel-track">
+                                    <div class="cert-slide"><img src="img/ibm.png" alt="Sertifikat 11" /></div>
+                                </div>
+                            </div>
+                            <button class="carousel-nav prev" onclick="event.stopPropagation()">❮</button>
+                            <button class="carousel-nav next" onclick="event.stopPropagation()">❯</button>
+                        </div>
+
+                        <!-- Carousel 10 -->
+                        <div class="certifications-carousel fade-in-up delay-300" onclick="openCertModal('img/digmar.png')">
+                            <div class="carousel-container">
+                                <div class="carousel-track">
+                                    <div class="cert-slide"><img src="img/digmar.png" alt="Sertifikat 11" /></div>
+                                    <div class="cert-slide"><img src="img/digmar1.png" alt="Sertifikat 12" /></div>
+                                </div>
+                            </div>
+                            <button class="carousel-nav prev" onclick="event.stopPropagation()">❮</button>
+                            <button class="carousel-nav next" onclick="event.stopPropagation()">❯</button>
+                        </div>
+
+                        <!-- Carousel 11 -->
+                        <div class="certifications-carousel fade-in-up delay-400" onclick="openCertModal('img/axel.png')">
+                            <div class="carousel-container">
+                                <div class="carousel-track">
+                                    <div class="cert-slide"><img src="img/axel.png" alt="Sertifikat 11" /></div>
+                                </div>
+                            </div>
+                            <button class="carousel-nav prev" onclick="event.stopPropagation()">❮</button>
+                            <button class="carousel-nav next" onclick="event.stopPropagation()">❯</button>
+                        </div>
+
+                        <!-- Carousel 12 -->
+                        <div class="certifications-carousel fade-in-up delay-500" onclick="openCertModal('img/acp1.png')">
+                            <div class="carousel-container">
+                                <div class="carousel-track">
+                                    <div class="cert-slide"><img src="img/acp1.png" alt="Sertifikat 11" /></div>
+                                    <div class="cert-slide"><img src="img/acp2.png" alt="Sertifikat 12" /></div>
+                                </div>
+                            </div>
+                            <button class="carousel-nav prev" onclick="event.stopPropagation()">❮</button>
+                            <button class="carousel-nav next" onclick="event.stopPropagation()">❯</button>
+                        </div>
+
+                        <!-- Carousel 13 -->
+                        <div class="certifications-carousel fade-in-up" onclick="openCertModal('img/acp3.png')">
+                            <div class="carousel-container">
+                                <div class="carousel-track">
+                                    <div class="cert-slide"><img src="img/acp3.png" alt="Sertifikat 11" /></div>
+                                    <div class="cert-slide"><img src="img/acp4.png" alt="Sertifikat 12" /></div>
+                                </div>
+                            </div>
+                            <button class="carousel-nav prev" onclick="event.stopPropagation()">❮</button>
+                            <button class="carousel-nav next" onclick="event.stopPropagation()">❯</button>
+                        </div>
+
+                        <!-- Carousel 14 -->
+                        <div class="certifications-carousel fade-in-up delay-100" onclick="openCertModal('img/acp5.png')">
+                            <div class="carousel-container">
+                                <div class="carousel-track">
+                                    <div class="cert-slide"><img src="img/acp5.png" alt="Sertifikat 11" /></div>
+                                    <div class="cert-slide"><img src="img/acp6.png" alt="Sertifikat 12" /></div>
+                                </div>
+                            </div>
+                            <button class="carousel-nav prev" onclick="event.stopPropagation()">❮</button>
+                            <button class="carousel-nav next" onclick="event.stopPropagation()">❯</button>
+                        </div>
+
+                        <!-- Carousel 15 -->
+                        <div class="certifications-carousel fade-in-up delay-200" onclick="openCertModal('img/acp7.png')">
+                            <div class="carousel-container">
+                                <div class="carousel-track">
+                                    <div class="cert-slide"><img src="img/acp7.png" alt="Sertifikat 11" /></div>
+                                    <div class="cert-slide"><img src="img/acp8.png" alt="Sertifikat 12" /></div>
+                                </div>
+                            </div>
+                            <button class="carousel-nav prev" onclick="event.stopPropagation()">❮</button>
+                            <button class="carousel-nav next" onclick="event.stopPropagation()">❯</button>
+                        </div>
+
+                        <!-- Carousel 16 -->
+                        <div class="certifications-carousel fade-in-up delay-300" onclick="openCertModal('img/acp9.png')">
+                            <div class="carousel-container">
+                                <div class="carousel-track">
+                                    <div class="cert-slide"><img src="img/acp9.png" alt="Sertifikat 11" /></div>
+                                    <div class="cert-slide"><img src="img/acp10.png" alt="Sertifikat 12" /></div>
+                                </div>
+                            </div>
+                            <button class="carousel-nav prev" onclick="event.stopPropagation()">❮</button>
+                            <button class="carousel-nav next" onclick="event.stopPropagation()">❯</button>
+                        </div>
+
+                        <!-- Carousel 17 -->
+                        <div class="certifications-carousel fade-in-up delay-400" onclick="openCertModal('img/acp11.png')">
+                            <div class="carousel-container">
+                                <div class="carousel-track">
+                                    <div class="cert-slide"><img src="img/acp11.png" alt="Sertifikat 11" /></div>
+                                    <div class="cert-slide"><img src="img/acp12.png" alt="Sertifikat 12" /></div>
+                                </div>
+                            </div>
+                            <button class="carousel-nav prev" onclick="event.stopPropagation()">❮</button>
+                            <button class="carousel-nav next" onclick="event.stopPropagation()">❯</button>
+                        </div>
+
+                        <!-- Carousel 18 -->
+                        <div class="certifications-carousel fade-in-up delay-500" onclick="openCertModal('img/acp13.png')">
+                            <div class="carousel-container">
+                                <div class="carousel-track">
+                                    <div class="cert-slide"><img src="img/acp13.png" alt="Sertifikat 11" /></div>
+                                    <div class="cert-slide"><img src="img/acp14.png" alt="Sertifikat 12" /></div>
+                                </div>
+                            </div>
+                            <button class="carousel-nav prev" onclick="event.stopPropagation()">❮</button>
+                            <button class="carousel-nav next" onclick="event.stopPropagation()">❯</button>
+                        </div>
+
+                        <!-- Carousel 19 -->
+                        <div class="certifications-carousel fade-in-up" onclick="openCertModal('img/acp15.png')">
+                            <div class="carousel-container">
+                                <div class="carousel-track">
+                                    <div class="cert-slide"><img src="img/acp15.png" alt="Sertifikat 11" /></div>
+                                    <div class="cert-slide"><img src="img/acp16.png" alt="Sertifikat 12" /></div>
+                                </div>
+                            </div>
+                            <button class="carousel-nav prev" onclick="event.stopPropagation()">❮</button>
+                            <button class="carousel-nav next" onclick="event.stopPropagation()">❯</button>
+                        </div>
+
+                        <!-- Carousel 20 -->
+                        <div class="certifications-carousel fade-in-up delay-100" onclick="openCertModal('img/acp17.png')">
+                            <div class="carousel-container">
+                                <div class="carousel-track">
+                                    <div class="cert-slide"><img src="img/acp17.png" alt="Sertifikat 11" /></div>
+                                    <div class="cert-slide"><img src="img/acp18.png" alt="Sertifikat 12" /></div>
+                                </div>
+                            </div>
+                            <button class="carousel-nav prev" onclick="event.stopPropagation()">❮</button>
+                            <button class="carousel-nav next" onclick="event.stopPropagation()">❯</button>
+                        </div>
+
+                        <!-- Carousel 21 -->
+                        <div class="certifications-carousel fade-in-up delay-200" onclick="openCertModal('img/acp19.png')">
+                            <div class="carousel-container">
+                                <div class="carousel-track">
+                                    <div class="cert-slide"><img src="img/acp19.png" alt="Sertifikat 11" /></div>
+                                </div>
+                            </div>
+                            <button class="carousel-nav prev" onclick="event.stopPropagation()">❮</button>
+                            <button class="carousel-nav next" onclick="event.stopPropagation()">❯</button>
+                        </div>
+
+                        <!-- Carousel 22 -->
+                        <div class="certifications-carousel fade-in-up delay-300" onclick="openCertModal('img/acp20.png')">
+                            <div class="carousel-container">
+                                <div class="carousel-track">
+                                    <div class="cert-slide"><img src="img/acp20.png" alt="Sertifikat 11" /></div>
+                                </div>
+                            </div>
+                            <button class="carousel-nav prev" onclick="event.stopPropagation()">❮</button>
+                            <button class="carousel-nav next" onclick="event.stopPropagation()">❯</button>
+                        </div>
+
+                        <!-- Carousel 23 -->
+                        <div class="certifications-carousel fade-in-up delay-400" onclick="openCertModal('img/ac1.png')">
+                            <div class="carousel-container">
+                                <div class="carousel-track">
+                                    <div class="cert-slide"><img src="img/ac1.png" alt="Sertifikat 12" /></div>
+                                </div>
+                            </div>
+                            <button class="carousel-nav prev" onclick="event.stopPropagation()">❮</button>
+                            <button class="carousel-nav next" onclick="event.stopPropagation()">❯</button>
+                        </div>
+
+                        <!-- Carousel 24 -->
+                        <div class="certifications-carousel fade-in-up delay-500" onclick="openCertModal('img/ac2.png')">
+                            <div class="carousel-container">
+                                <div class="carousel-track">
+                                    <div class="cert-slide"><img src="img/ac2.png" alt="Sertifikat 11" /></div>
+                                </div>
+                            </div>
+                            <button class="carousel-nav prev" onclick="event.stopPropagation()">❮</button>
+                            <button class="carousel-nav next" onclick="event.stopPropagation()">❯</button>
+                        </div>
+
+                        <!-- Carousel 25 -->
+                        <div class="certifications-carousel fade-in-up" onclick="openCertModal('img/ac3.png')">
+                            <div class="carousel-container">
+                                <div class="carousel-track">
+                                    <div class="cert-slide"><img src="img/ac3.png" alt="Sertifikat 11" /></div>
+                                </div>
+                            </div>
+                            <button class="carousel-nav prev" onclick="event.stopPropagation()">❮</button>
+                            <button class="carousel-nav next" onclick="event.stopPropagation()">❯</button>
+                        </div>
+
+                        <!-- Carousel 26 -->
+                        <div class="certifications-carousel fade-in-up delay-100" onclick="openCertModal('img/ac4.png')">
+                            <div class="carousel-container">
+                                <div class="carousel-track">
+                                    <div class="cert-slide"><img src="img/ac4.png" alt="Sertifikat 11" /></div>
+                                </div>
+                            </div>
+                            <button class="carousel-nav prev" onclick="event.stopPropagation()">❮</button>
+                            <button class="carousel-nav next" onclick="event.stopPropagation()">❯</button>
+                        </div>
+
+                        <!-- Carousel 27 -->
+                        <div class="certifications-carousel fade-in-up delay-200" onclick="openCertModal('img/ac5.png')">
+                            <div class="carousel-container">
+                                <div class="carousel-track">
+                                    <div class="cert-slide"><img src="img/ac5.png" alt="Sertifikat 11" /></div>
+                                </div>
+                            </div>
+                            <button class="carousel-nav prev" onclick="event.stopPropagation()">❮</button>
+                            <button class="carousel-nav next" onclick="event.stopPropagation()">❯</button>
+                        </div>
+
+                        <!-- Carousel 28 -->
+                        <div class="certifications-carousel fade-in-up delay-300" onclick="openCertModal('img/ac6.png')">
+                            <div class="carousel-container">
+                                <div class="carousel-track">
+                                    <div class="cert-slide"><img src="img/ac6.png" alt="Sertifikat 11" /></div>
+                                </div>
+                            </div>
+                            <button class="carousel-nav prev" onclick="event.stopPropagation()">❮</button>
+                            <button class="carousel-nav next" onclick="event.stopPropagation()">❯</button>
+                        </div>
+
+                        <!-- Carousel 29 -->
+                        <div class="certifications-carousel fade-in-up delay-400" onclick="openCertModal('img/ac7.png')">
+                            <div class="carousel-container">
+                                <div class="carousel-track">
+                                    <div class="cert-slide"><img src="img/ac7.png" alt="Sertifikat 11" /></div>
+                                </div>
+                            </div>
+                            <button class="carousel-nav prev" onclick="event.stopPropagation()">❮</button>
+                            <button class="carousel-nav next" onclick="event.stopPropagation()">❯</button>
+                        </div>
+
+                        <!-- Carousel 30 -->
+                        <div class="certifications-carousel fade-in-up delay-500" onclick="openCertModal('img/ac8.png')">
+                            <div class="carousel-container">
+                                <div class="carousel-track">
+                                    <div class="cert-slide"><img src="img/ac8.png" alt="Sertifikat 11" /></div>
+                                </div>
+                            </div>
+                            <button class="carousel-nav prev" onclick="event.stopPropagation()">❮</button>
+                            <button class="carousel-nav next" onclick="event.stopPropagation()">❯</button>
+                        </div>
+
+                        <!-- Carousel 31 -->
+                        <div class="certifications-carousel fade-in-up" onclick="openCertModal('img/ac9.png')">
+                            <div class="carousel-container">
+                                <div class="carousel-track">
+                                    <div class="cert-slide"><img src="img/ac9.png" alt="Sertifikat 11" /></div>
+                                </div>
+                            </div>
+                            <button class="carousel-nav prev" onclick="event.stopPropagation()">❮</button>
+                            <button class="carousel-nav next" onclick="event.stopPropagation()">❯</button>
+                        </div>
+
+                        <!-- Carousel 32 -->
+                        <div class="certifications-carousel fade-in-up delay-100" onclick="openCertModal('img/ac10.png')">
+                            <div class="carousel-container">
+                                <div class="carousel-track">
+                                    <div class="cert-slide"><img src="img/ac10.png" alt="Sertifikat 11" /></div>
+                                </div>
+                            </div>
+                            <button class="carousel-nav prev" onclick="event.stopPropagation()">❮</button>
+                            <button class="carousel-nav next" onclick="event.stopPropagation()">❯</button>
+                        </div>
+
+                        <!-- Carousel 33 -->
+                        <div class="certifications-carousel fade-in-up delay-200" onclick="openCertModal('img/ac11.png')">
+                            <div class="carousel-container">
+                                <div class="carousel-track">
+                                    <div class="cert-slide"><img src="img/ac11.png" alt="Sertifikat 11" /></div>
+                                </div>
+                            </div>
+                            <button class="carousel-nav prev" onclick="event.stopPropagation()">❮</button>
+                            <button class="carousel-nav next" onclick="event.stopPropagation()">❯</button>
+                        </div>
+
+                        <!-- Carousel 34 -->
+                        <div class="certifications-carousel fade-in-up delay-300" onclick="openCertModal('img/ac12.png')">
+                            <div class="carousel-container">
+                                <div class="carousel-track">
+                                    <div class="cert-slide"><img src="img/ac12.png" alt="Sertifikat 11" /></div>
+                                </div>
+                            </div>
+                            <button class="carousel-nav prev" onclick="event.stopPropagation()">❮</button>
+                            <button class="carousel-nav next" onclick="event.stopPropagation()">❯</button>
+                        </div>
+
+                        <!-- Carousel 35 -->
+                        <div class="certifications-carousel fade-in-up delay-400" onclick="openCertModal('img/ac13.png')">
+                            <div class="carousel-container">
+                                <div class="carousel-track">
+                                    <div class="cert-slide"><img src="img/ac13.png" alt="Sertifikat 11" /></div>
+                                </div>
+                            </div>
+                            <button class="carousel-nav prev" onclick="event.stopPropagation()">❮</button>
+                            <button class="carousel-nav next" onclick="event.stopPropagation()">❯</button>
+                        </div>
+
+                        <!-- Carousel 36 -->
+                        <div class="certifications-carousel fade-in-up delay-500" onclick="openCertModal('img/ac15.png')">
+                            <div class="carousel-container">
+                                <div class="carousel-track">
+                                    <div class="cert-slide"><img src="img/ac15.png" alt="Sertifikat 11" /></div>
+                                </div>
+                            </div>
+                            <button class="carousel-nav prev" onclick="event.stopPropagation()">❮</button>
+                            <button class="carousel-nav next" onclick="event.stopPropagation()">❯</button>
+                        </div>
+                    </div> 
+                </div>
+
+                <!-- TAB 3: SKILL & APLIKASI -->
+                <div id="skills" class="tab-content">
+                    <div class="grid md:grid-cols-2 gap-12">
+                        <!-- Programming Skills -->
+                        <div class="glass-panel p-8 fade-in-left">
+                            <h3 class="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                                <i data-lucide="code" class="text-cyan-500"></i> <span data-i18n="portfolio.skills.programmingTitle">BAHASA & FRAMEWORK</span>
+                            </h3>
+                            <div class="space-y-6">
+                                <div>
+                                    <div class="flex justify-between text-sm mb-2">
+                                        <span>HTML / CSS / JS</span> 
+                                        <span class="text-cyan-400">Dasar (45%)</span>
+                                    </div>
+                                    <div class="h-2 w-full bg-slate-800 rounded-full overflow-hidden">
+                                        <div class="h-full bg-cyan-500 w-[45%] shadow-[0_0_10px_#00f3ff] transition-all duration-1000"></div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div class="flex justify-between text-sm mb-2">
+                                        <span>PHP / Laravel</span> 
+                                        <span class="text-pink-400">Dasar (40%)</span>
+                                    </div>
+                                    <div class="h-2 w-full bg-slate-800 rounded-full overflow-hidden">
+                                        <div class="h-full bg-pink-500 w-[40%] shadow-[0_0_10px_#ff00ff] transition-all duration-1000"></div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div class="flex justify-between text-sm mb-2">
+                                        <span>MySQL Database</span> 
+                                        <span class="text-purple-400">Dasar (42%)</span>
+                                    </div>
+                                    <div class="h-2 w-full bg-slate-800 rounded-full overflow-hidden">
+                                        <div class="h-full bg-purple-500 w-[42%] shadow-[0_0_10px_#bc13fe] transition-all duration-1000"></div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div class="flex justify-between text-sm mb-2">
+                                        <span>Python</span> 
+                                        <span class="text-blue-400">Dasar (38%)</span>
+                                    </div>
+                                    <div class="h-2 w-full bg-slate-800 rounded-full overflow-hidden">
+                                        <div class="h-full bg-blue-500 w-[38%] shadow-[0_0_10px_#3b82f6] transition-all duration-1000"></div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div class="flex justify-between text-sm mb-2">
+                                        <span>C++</span> 
+                                        <span class="text-green-400">Dasar (35%)</span>
+                                    </div>
+                                    <div class="h-2 w-full bg-slate-800 rounded-full overflow-hidden">
+                                        <div class="h-full bg-green-500 w-[35%] shadow-[0_0_10px_#10b981] transition-all duration-1000"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tools & Apps -->
+                        <div class="glass-panel p-8 fade-in-right">
+                            <h3 class="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                                <i data-lucide="monitor-smartphone" class="text-pink-500"></i> <span data-i18n="portfolio.skills.toolsTitle">APLIKASI PENDUKUNG</span>
+                            </h3>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="flex items-center gap-3 p-3 bg-white/5 rounded-lg border border-white/5 hover:border-cyan-500/50 transition-colors">
+                                    <div class="w-2 h-2 bg-cyan-500 rounded-full"></div>
+                                    <span class="text-sm">VS Code</span>
+                                </div>
+                                <div class="flex items-center gap-3 p-3 bg-white/5 rounded-lg border border-white/5 hover:border-pink-500/50 transition-colors">
+                                    <div class="w-2 h-2 bg-pink-500 rounded-full"></div>
+                                    <span class="text-sm">Cisco Packet Tracer</span>
+                                </div>
+                                <div class="flex items-center gap-3 p-3 bg-white/5 rounded-lg border border-white/5 hover:border-cyan-500/50 transition-colors">
+                                    <div class="w-2 h-2 bg-cyan-500 rounded-full"></div>
+                                    <span class="text-sm">Winbox (Mikrotik)</span>
+                                </div>
+                                <div class="flex items-center gap-3 p-3 bg-white/5 rounded-lg border border-white/5 hover:border-pink-500/50 transition-colors">
+                                    <div class="w-2 h-2 bg-pink-500 rounded-full"></div>
+                                    <span class="text-sm">Canva</span>
+                                </div>
+                                <div class="flex items-center gap-3 p-3 bg-white/5 rounded-lg border border-white/5 hover:border-cyan-500/50 transition-colors">
+                                    <div class="w-2 h-2 bg-cyan-500 rounded-full"></div>
+                                    <span class="text-sm">Microsoft Word</span>
+                                </div>
+                                <div class="flex items-center gap-3 p-3 bg-white/5 rounded-lg border border-white/5 hover:border-pink-500/50 transition-colors">
+                                    <div class="w-2 h-2 bg-pink-500 rounded-full"></div>
+                                    <span class="text-sm">Microsoft Excel</span>
+                                </div>
+                                <div class="flex items-center gap-3 p-3 bg-white/5 rounded-lg border border-white/5 hover:border-cyan-500/50 transition-colors">
+                                    <div class="w-2 h-2 bg-cyan-500 rounded-full"></div>
+                                    <span class="text-sm">Microsoft Powerpoint</span>
+                                </div>
+                                <div class="flex items-center gap-3 p-3 bg-white/5 rounded-lg border border-white/5 hover:border-pink-500/50 transition-colors">
+                                    <div class="w-2 h-2 bg-pink-500 rounded-full"></div>
+                                    <span class="text-sm">Virtual Box</span>
+                                </div>
+                                <div class="flex items-center gap-3 p-3 bg-white/5 rounded-lg border border-white/5 hover:border-cyan-500/50 transition-colors">
+                                    <div class="w-2 h-2 bg-cyan-500 rounded-full"></div>
+                                    <span class="text-sm">VM Ware</span>
+                                </div>
+                                <div class="flex items-center gap-3 p-3 bg-white/5 rounded-lg border border-white/5 hover:border-pink-500/50 transition-colors">
+                                    <div class="w-2 h-2 bg-pink-500 rounded-full"></div>
+                                    <span class="text-sm">Laragon</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="pt-20 pb-10 text-center relative overflow-hidden">
+            <h3 class="text-2xl font-bold text-white mb-2">AYO KENALAN</h3>
+            <p class="text-slate-500 text-sm mb-8" data-i18n="footer.location">Ini beberapa media sosial aku!</p>
+            
+            <div class="flex justify-center gap-6">
+                <a href="https://www.linkedin.com/in/muhamad-andhika-mahaputra-rohman-356880321?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" class="text-slate-500 hover:text-cyan-400 transition-colors" title="LinkedIn">
+                    <i data-lucide="linkedin" class="w-6 h-6"></i>
+                </a>
+                <a href="https://www.instagram.com/andhikamahaputra_?igsh=ano0YTRyamZ1Z3Ux" target="_blank" class="text-slate-500 hover:text-pink-400 transition-colors" title="Instagram">
+                    <i data-lucide="instagram" class="w-6 h-6"></i>
+                </a>
+            </div>
+        </footer>
+    </div>
+
+    <!-- EDUCATION PHOTO MODAL — SMK -->
+    <div class="cert-modal" id="eduPhotoModal">
+        <button onclick="closeEduPhoto()" class="modal-close-btn">
+            <i data-lucide="x" class="w-6 h-6"></i>
+        </button>
+        <div class="cert-modal-container">
+            <button onclick="prevEduPhoto()" class="cert-nav-btn prev" id="eduPrevBtn">
+                <i data-lucide="chevron-left" class="w-6 h-6"></i>
+            </button>
+            <img id="eduPhotoImage" src="" alt="Education Documentation">
+            <button onclick="nextEduPhoto()" class="cert-nav-btn next" id="eduNextBtn">
+                <i data-lucide="chevron-right" class="w-6 h-6"></i>
+            </button>
+            <div class="cert-counter" id="eduPhotoCounter">1 / 3</div>
+        </div>
+    </div>
+
+    <!-- EDUCATION PHOTO MODAL — STT -->
+    <div class="cert-modal" id="sttPhotoModal">
+        <button onclick="closeSttPhoto()" class="modal-close-btn" style="border-color: var(--neon-pink); color: var(--neon-pink);">
+            <i data-lucide="x" class="w-6 h-6"></i>
+        </button>
+        <div class="cert-modal-container">
+            <button onclick="prevSttPhoto()" class="cert-nav-btn prev" style="border-color: var(--neon-pink); color: var(--neon-pink);">
+                <i data-lucide="chevron-left" class="w-6 h-6"></i>
+            </button>
+            <img id="sttPhotoImage" src="" alt="STT Documentation" style="border-color: var(--neon-pink); box-shadow: 0 0 50px rgba(255,0,255,0.3);">
+            <button onclick="nextSttPhoto()" class="cert-nav-btn next" style="border-color: var(--neon-pink); color: var(--neon-pink);">
+                <i data-lucide="chevron-right" class="w-6 h-6"></i>
+            </button>
+            <div class="cert-counter" style="border-color: var(--neon-pink); color: var(--neon-pink);" id="sttPhotoCounter">1 / 3</div>
+        </div>
+    </div>
+    <div class="project-modal" id="projectModal">
+        <button onclick="closeProjectModal()" class="modal-close-btn">
+            <i data-lucide="x" class="w-6 h-6"></i>
+        </button>
+        <div class="project-modal-content p-8" id="projectModalContent">
+            <!-- Content will be injected by JavaScript -->
+        </div>
+    </div>
+
+    <!-- CERTIFICATE FULLSCREEN MODAL -->
+    <div class="cert-modal" id="certModal">
+        <button onclick="closeCertModal()" class="modal-close-btn">
+            <i data-lucide="x" class="w-6 h-6"></i>
+        </button>
+        <div class="cert-modal-container">
+            <button onclick="prevCertImage()" class="cert-nav-btn prev" id="certPrevBtn">
+                <i data-lucide="chevron-left" class="w-6 h-6"></i>
+            </button>
+            <img id="certModalImage" src="" alt="Certificate">
+            <button onclick="nextCertImage()" class="cert-nav-btn next" id="certNextBtn">
+                <i data-lucide="chevron-right" class="w-6 h-6"></i>
+            </button>
+            <div class="cert-counter" id="certCounter">1 / 1</div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // TRANSLATIONS DATABASE
+        // ============================================
+        const translations = {
+            id: {
+                nav: {
+                    home: "BERANDA",
+                    profile: "PROFIL",
+                    portfolio: "PORTOFOLIO",
+                },
+                hero: {
+                    greeting: "HALOO SEMUANYAA!",
+                    role1: "Web Developer",
+                    role2: "Network System Administrator",
+                    role3: "Network Engineer",
+                    description: "Bekerjalah dalam hening di balik layar hingga sistemmu mapan, lalu biarkan manfaatnya berbicara di depan layar saat semua orang membutuhkannya.",
+                    cta: "LIHAT_CV",
+                    github: "REPO_GITHUB"
+                },
+                marquee: {
+                    text: "SYSTEM STATUS: ONLINE // WEB DEVELOPER // NETWORK ENGINEER // NETWORK SYSTEM ADMINISTRATOR // STATUS SISTEM: ONLINE // PENGEMBANG WEB // TEKNISI JARINGAN // ADMINISTRATOR SISTEM JARINGAM //"
+                },
+                profile: {
+                    title: "LATAR_BELAKANG",
+                    background: {
+                        title: "Tentang Saya",
+                        p1: "Berasal dari Purwakarta, Jawa Barat. Lulusan SMK Negeri 1 Purwakarta (TKJ) dan kini mahasiswa semester 4 Teknik Informatika.",
+                        p2: "Memiliki passion mendalam dalam mengonfigurasi jaringan kompleks (Cisco/Mikrotik) dan membangun aplikasi web (Laravel/PHP). Kombinasi \"Infrastruktur Keras\" dan \"Pengembangan Lunak\" adalah kekuatan utama saya."
+                    },
+                    stats: {
+                        certificates: "PENGALAMAN BELAJAR IT",
+                        projects: "PROJEK"
+                    },
+                    experience: {
+                        subtitle: "// LOG_PENGALAMAN_KERJA",
+                        exp1: {
+                            period: "2023 - SEKARANG",
+                            title: "Konsultan IT Freelance",
+                            desc: "Penyusunan laporan PKL, pembuatan CV ATS-Friendly, dan video editing untuk personal branding klien."
+                        },
+                        exp2: {
+                            period: "JUL - DES 2023",
+                            title: "PT. Mabito Karya Indonesia",
+                            desc: "Operator Produksi (Perakitan Axioo) & Quality Control. Manajemen multimedia dokumentasi operasional."
+                        }
+                    },
+                    education: {
+                        title: "Pendidikan",
+                        smk: {
+                            name: "SMK Negeri 1 Purwakarta",
+                            major: "Teknik Komputer dan Jaringan",
+                            desc: "Fokus pada konfigurasi jaringan, server administration, dan troubleshooting sistem komputer.",
+                            grade: "Nilai Akhir:"
+                        },
+                        uni: {
+                            name: "STT Wastukancana Purwakarta",
+                            major: "Teknik Informatika - S1",
+                            desc: "Mendalami software engineering, web development, dan artificial intelligence untuk solusi teknologi modern."
+                        }
+                    }
+                },
+                portfolio: {
+                    title: "PORTOFOLIO DIGITAL",
+                    description: "Kumpulan projek yang pernah saya buat, sertifikasi kompetensi, dan beberapa kemampuan teknis.",
+                    tabs: {
+                        projects: "PROJEK SAYA",
+                        certificates: "SERTIFIKAT",
+                        skills: " SKILL & APLIKASI"
+                    },
+                    projects: {
+                        project1: {
+                            title: "Game Ular 8Bit",
+                            desc: "Permainan klasik dengan sentuhan retro modern."
+                        },
+                        project2: {
+                            title: "Sistem Jadwal Kuliah",
+                            desc: "Manajemen jadwal mahasiswa yang efisien dan terstruktur."
+                        },
+                        project4: {
+                            title: "Dedicated Hosting Server",
+                            desc: "Pengelolaan server fisik eksklusif untuk performa tinggi dan keamanan maksimal."
+                        },
+                        project5: {
+                            title: "Virtual Private Server",
+                            desc: "Implementasi server virtual yang fleksibel dengan skalabilitas sumber daya yang efisien."
+                        },
+                        project6: {
+                            title: "Sistem Kontrol Dan Monitoring Jaringan",
+                            desc: "Dashboard pemantauan real-time untuk kontrol trafik dan kesehatan jaringan secara terpusat."
+                        },
+                        project7: {
+                            title: "Virtual Private Network",
+                            desc: "Implementasi jaringan pribadi dengan enkripsi tingkat tinggi untuk transmisi data yang aman."
+                        }
+                    },
+                    skills: {
+                        programmingTitle: "BAHASA & FRAMEWORK",
+                        toolsTitle: "APLIKASI PENDUKUNG"
+                    }
+                },
+                footer: {
+                    location: "Ini beberapa media sosial aku!"
+                }
+            },
+            en: {
+                nav: {
+                    home: "HOME",
+                    profile: "PROFILE",
+                    portfolio: "PORTOFOLIO",
+                },
+                hero: {
+                    greeting: "HELLO EVERYONE!",
+                    role1: "Web Developer",
+                    role2: "Network System Administrator",
+                    role3: "Network Engineer",
+                    description: "Work quietly behind the scenes until your system is established, then let its benefits speak for themselves on screen when everyone needs them.",
+                    cta: "SEE_CV",
+                    github: "GITHUB_REPO"
+                },
+                marquee: {
+                    text: "SYSTEM STATUS: ONLINE // WEB DEVELOPER // NETWORK ENGINEER // NETWORK SYSTEM ADMINISTRATOR // SYSTEM STATUS: ONLINE // WEB DEVELOPER // NETWORK TECHNICIAN // NETWORK SYSTEM ADMINISTRATOR //"
+                },
+                profile: {
+                    title: "BACKGROUND",
+                    background: {
+                        title: "About Me",
+                        p1: "From Purwakarta, West Java. Graduate of SMK Negeri 1 Purwakarta (Computer Network Engineering) and currently a 4th semester Informatics Engineering student.",
+                        p2: "Have a deep passion for configuring complex networks (Cisco/Mikrotik) and building web applications (Laravel/PHP). The combination of \"Hard Infrastructure\" and \"Soft Development\" is my core strength."
+                    },
+                    stats: {
+                        certificates: "IT LEARNING EXPERIENCE",
+                        projects: "PROJECTS"
+                    },
+                    experience: {
+                        subtitle: "// WORK_EXPERIENCE_LOG",
+                        exp1: {
+                            period: "2023 - PRESENT",
+                            title: "Freelance IT Consultant",
+                            desc: "Internship report compilation, ATS-Friendly CV creation, and video editing for client personal branding."
+                        },
+                        exp2: {
+                            period: "JUL - DEC 2023",
+                            title: "PT. Mabito Karya Indonesia",
+                            desc: "Production Operator (Axioo Assembly) & Quality Control. Multimedia management for operational documentation."
+                        }
+                    },
+                    education: {
+                        title: "Education",
+                        smk: {
+                            name: "SMK Negeri 1 Purwakarta",
+                            major: "Computer and Network Engineering",
+                            desc: "Focus on network configuration, server administration, and computer system troubleshooting.",
+                            grade: "Final Grade:"
+                        },
+                        uni: {
+                            name: "STT Wastukancana Purwakarta",
+                            major: "Informatics Engineering - Bachelor",
+                            desc: "Diving deep into software engineering, web development, and artificial intelligence for modern technology solutions."
+                        }
+                    }
+                },
+                portfolio: {
+                    title: "DIGITAL PORTFOLIO",
+                    description: "A collection of projects I have created, competency certifications, and some technical skills.",
+                    tabs: {
+                        projects: "MY PROJECTS",
+                        certificates: "CERTIFICATES",
+                        skills: "SKILLS & TOOLS"
+                    },
+                    projects: {
+                        project1: {
+                            title: "8Bit Snake Game",
+                            desc: "Classic game with modern retro touch."
+                        },
+                        project2: {
+                            title: "College Schedule System",
+                            desc: "Efficient and structured student schedule management."
+                        },
+                        project4: {
+                            title: "Dedicated Hosting Server",
+                            desc: "Exclusive physical server management for high performance and maximum security."
+                        },
+                        project5: {
+                            title: "Virtual Private Server",
+                            desc: "Flexible virtual server implementation with efficient resource scalability."
+                        },
+                        project6: {
+                            title: "Network Control & Monitoring System",
+                            desc: "Real-time dashboard for centralized traffic control and network health monitoring."
+                        },
+                        project7: {
+                            title: "Virtual Private Network",
+                            desc: "Private network implementation with high-level encryption for secure data transmission."
+                        }
+                    },
+                    skills: {
+                        programmingTitle: "LANGUAGES & FRAMEWORKS",
+                        toolsTitle: "SUPPORTING APPLICATIONS"
+                    }
+                },
+                footer: {
+                    location: "Here are some of my social media!"
+                }
+            }
+        };
+
+        // ============================================
+        // PROJECT DETAILS DATABASE
+        // ============================================
+        const projectDetails = {
+            project1: {
+                title: "Game Ular 8Bit",
+                image: "/img/p0.png",
+                description: `
+                    <h4 class="text-lg font-bold text-cyan-400 mb-3">🎮 Deskripsi Projek</h4>
+                    <p class="text-slate-300 mb-4 leading-relaxed">
+                        Game Snake klasik dengan aesthetic 8-bit retro yang dibuat menggunakan HTML5 Canvas, CSS3, dan vanilla JavaScript. 
+                        Permainan ini menampilkan mekanik gameplay tradisional dengan visual yang nostalgic namun modern.
+                    </p>
+
+                    <h4 class="text-lg font-bold text-cyan-400 mb-3">✨ Fitur Utama</h4>
+                    <ul class="list-disc list-inside text-slate-300 mb-4 space-y-2">
+                        <li>Kontrol responsif menggunakan arrow keys</li>
+                        <li>Sistem scoring real-time</li>
+                        <li>Animasi smooth dengan requestAnimationFrame</li>
+                        <li>Collision detection yang akurat</li>
+                        <li>Pixel art style dengan palet warna retro</li>
+                        <li>Sound effects 8-bit (optional)</li>
+                    </ul>
+
+                    <h4 class="text-lg font-bold text-cyan-400 mb-3">🛠️ Teknologi yang Digunakan</h4>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="px-3 py-1 bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 rounded-full text-sm">HTML5 Canvas</span>
+                        <span class="px-3 py-1 bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 rounded-full text-sm">CSS3</span>
+                        <span class="px-3 py-1 bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 rounded-full text-sm">JavaScript ES6</span>
+                        <span class="px-3 py-1 bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 rounded-full text-sm">Game Loop</span>
+                    </div>
+
+                    <h4 class="text-lg font-bold text-cyan-400 mb-3">💡 Pembelajaran</h4>
+                    <p class="text-slate-300 leading-relaxed">
+                        Projek ini mengajarkan konsep fundamental game development seperti game loop, collision detection, state management, 
+                        dan rendering optimization. Sangat cocok untuk memahami dasar-dasar pemrograman game berbasis browser.
+                    </p>
+                `,
+                tech: ["HTML", "CSS", "JavaScript"]
+            },
+            project2: {
+                title: "Sistem Jadwal Kuliah",
+                image: "/img/p5.png",
+                description: `
+                    <h4 class="text-lg font-bold text-pink-400 mb-3">📚 Deskripsi Projek</h4>
+                    <p class="text-slate-300 mb-4 leading-relaxed">
+                        Aplikasi web management jadwal kuliah yang dibuat menggunakan Laravel framework. Sistem ini memungkinkan admin untuk 
+                        mengelola jadwal perkuliahan, dosen, mata kuliah, dan ruangan dengan interface yang user-friendly dan responsive.
+                    </p>
+
+                    <h4 class="text-lg font-bold text-pink-400 mb-3">✨ Fitur Utama</h4>
+                    <ul class="list-disc list-inside text-slate-300 mb-4 space-y-2">
+                        <li>CRUD lengkap untuk mata kuliah, dosen, ruangan, dan jadwal</li>
+                        <li>View jadwal dalam format table/calendar</li>
+                        <li>Filter jadwal berdasarkan hari, semester, atau prodi</li>
+                        <li>Export jadwal ke PDF</li>
+                        <li>Dashboard analytics untuk admin</li>
+                        <li>Notifikasi konflik jadwal otomatis</li>
+                        <li>Role-based access control (Admin & User)</li>
+                    </ul>
+
+                    <h4 class="text-lg font-bold text-pink-400 mb-3">🛠️ Teknologi yang Digunakan</h4>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="px-3 py-1 bg-pink-500/10 border border-pink-500/30 text-pink-400 rounded-full text-sm">Laravel 10</span>
+                        <span class="px-3 py-1 bg-pink-500/10 border border-pink-500/30 text-pink-400 rounded-full text-sm">PHP 8.2</span>
+                        <span class="px-3 py-1 bg-pink-500/10 border border-pink-500/30 text-pink-400 rounded-full text-sm">MySQL</span>
+                        <span class="px-3 py-1 bg-pink-500/10 border border-pink-500/30 text-pink-400 rounded-full text-sm">Bootstrap 5</span>
+                        <span class="px-3 py-1 bg-pink-500/10 border border-pink-500/30 text-pink-400 rounded-full text-sm">jQuery</span>
+                    </div>
+
+                    <h4 class="text-lg font-bold text-pink-400 mb-3">💡 Pembelajaran</h4>
+                    <p class="text-slate-300 leading-relaxed">
+                        Projek ini memberikan pemahaman mendalam tentang MVC architecture, database relationships, authentication & authorization, 
+                        dan best practices dalam web development menggunakan Laravel framework.
+                    </p>
+                `,
+                tech: ["Laravel", "PHP", "MySQL"]
+            },
+            project4: {
+                title: "Dedicated Hosting Server",
+                image: "img/p2.png",
+                description: `
+                    <h4 class="text-lg font-bold text-blue-400 mb-3">🖥️ Deskripsi Projek</h4>
+                    <p class="text-slate-300 mb-4 leading-relaxed">
+                        Implementasi dan konfigurasi dedicated server menggunakan Linux Debian untuk hosting web. Server dikonfigurasi dengan 
+                        full control panel (Webmin), database management, dan security hardening untuk performa dan keamanan maksimal.
+                    </p>
+
+                    <h4 class="text-lg font-bold text-blue-400 mb-3">✨ Fitur Utama</h4>
+                    <ul class="list-disc list-inside text-slate-300 mb-4 space-y-2">
+                        <li>Apache/Nginx web server configuration</li>
+                        <li>MySQL/MariaDB database server</li>
+                        <li>PHP-FPM untuk processing PHP optimal</li>
+                        <li>SSL/TLS certificate dengan Let's Encrypt</li>
+                        <li>Firewall rules (UFW/iptables)</li>
+                        <li>Automated backup system</li>
+                        <li>Server monitoring & logging</li>
+                        <li>DNS management</li>
+                    </ul>
+
+                    <h4 class="text-lg font-bold text-blue-400 mb-3">🛠️ Teknologi yang Digunakan</h4>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="px-3 py-1 bg-blue-500/10 border border-blue-500/30 text-blue-400 rounded-full text-sm">Linux Debian 11</span>
+                        <span class="px-3 py-1 bg-blue-500/10 border border-blue-500/30 text-blue-400 rounded-full text-sm">Webmin</span>
+                        <span class="px-3 py-1 bg-blue-500/10 border border-blue-500/30 text-blue-400 rounded-full text-sm">Apache/Nginx</span>
+                        <span class="px-3 py-1 bg-blue-500/10 border border-blue-500/30 text-blue-400 rounded-full text-sm">MySQL</span>
+                        <span class="px-3 py-1 bg-blue-500/10 border border-blue-500/30 text-blue-400 rounded-full text-sm">VirtualBox</span>
+                    </div>
+
+                    <h4 class="text-lg font-bold text-blue-400 mb-3">💡 Pembelajaran</h4>
+                    <p class="text-slate-300 leading-relaxed">
+                        Projek ini mengajarkan system administration, server security, networking fundamentals, dan troubleshooting skills 
+                        yang essential untuk career sebagai System Administrator atau DevOps Engineer.
+                    </p>
+                `,
+                tech: ["Linux Debian", "Webmin", "VirtualBox"]
+            },
+            project5: {
+                title: "Virtual Private Server",
+                image: "img/p4.png",
+                description: `
+                    <h4 class="text-lg font-bold text-cyan-400 mb-3">☁️ Deskripsi Projek</h4>
+                    <p class="text-slate-300 mb-4 leading-relaxed">
+                        Setup dan konfigurasi VPS (Virtual Private Server) menggunakan hypervisor Proxmox dan VirtualBox. Implementasi mencakup 
+                        resource allocation, network configuration, dan security setup untuk environment development dan production.
+                    </p>
+
+                    <h4 class="text-lg font-bold text-cyan-400 mb-3">✨ Fitur Utama</h4>
+                    <ul class="list-disc list-inside text-slate-300 mb-4 space-y-2">
+                        <li>Multiple VPS instances dalam satu physical server</li>
+                        <li>Dynamic resource allocation (CPU, RAM, Storage)</li>
+                        <li>Network isolation & VLAN configuration</li>
+                        <li>Snapshot & backup automation</li>
+                        <li>Template system untuk quick deployment</li>
+                        <li>Web-based management interface</li>
+                        <li>Container support (LXC/Docker)</li>
+                    </ul>
+
+                    <h4 class="text-lg font-bold text-cyan-400 mb-3">🛠️ Teknologi yang Digunakan</h4>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="px-3 py-1 bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 rounded-full text-sm">Proxmox VE</span>
+                        <span class="px-3 py-1 bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 rounded-full text-sm">VirtualBox</span>
+                        <span class="px-3 py-1 bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 rounded-full text-sm">Linux Debian</span>
+                        <span class="px-3 py-1 bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 rounded-full text-sm">KVM/QEMU</span>
+                    </div>
+
+                    <h4 class="text-lg font-bold text-cyan-400 mb-3">💡 Pembelajaran</h4>
+                    <p class="text-slate-300 leading-relaxed">
+                        Memahami virtualization technology, resource management, dan cloud computing concepts. Essential skill untuk 
+                        modern infrastructure management dan cloud architecture.
+                    </p>
+                `,
+                tech: ["VirtualBox", "Linux Debian", "Proxmox"]
+            },
+            project6: {
+                title: "Network Control & Monitoring",
+                image: "img/p3.png",
+                description: `
+                    <h4 class="text-lg font-bold text-emerald-400 mb-3">📊 Deskripsi Projek</h4>
+                    <p class="text-slate-300 mb-4 leading-relaxed">
+                        Implementasi network monitoring system menggunakan Cacti untuk real-time visibility terhadap network performance, 
+                        bandwidth utilization, dan device health. Dashboard centralized untuk monitoring multiple devices dan interfaces.
+                    </p>
+
+                    <h4 class="text-lg font-bold text-emerald-400 mb-3">✨ Fitur Utama</h4>
+                    <ul class="list-disc list-inside text-slate-300 mb-4 space-y-2">
+                        <li>Real-time network traffic monitoring</li>
+                        <li>Bandwidth usage graphs & charts</li>
+                        <li>SNMP polling untuk device monitoring</li>
+                        <li>Alert system untuk threshold violations</li>
+                        <li>Historical data analysis</li>
+                        <li>Custom graph templates</li>
+                        <li>Multi-device support</li>
+                        <li>Web-based dashboard</li>
+                    </ul>
+
+                    <h4 class="text-lg font-bold text-emerald-400 mb-3">🛠️ Teknologi yang Digunakan</h4>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 rounded-full text-sm">Cacti</span>
+                        <span class="px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 rounded-full text-sm">RRDtool</span>
+                        <span class="px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 rounded-full text-sm">SNMP</span>
+                        <span class="px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 rounded-full text-sm">Linux Debian</span>
+                        <span class="px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 rounded-full text-sm">VirtualBox</span>
+                    </div>
+
+                    <h4 class="text-lg font-bold text-emerald-400 mb-3">💡 Pembelajaran</h4>
+                    <p class="text-slate-300 leading-relaxed">
+                        Menguasai network monitoring concepts, SNMP protocol, data visualization, dan proactive network management. 
+                        Critical skill untuk Network Administrator dan NOC Engineer.
+                    </p>
+                `,
+                tech: ["Cacti", "VirtualBox", "Linux Debian"]
+            },
+            project7: {
+                title: "Virtual Private Network",
+                image: "/img/p1.jpg",
+                description: `
+                    <h4 class="text-lg font-bold text-orange-400 mb-3">🔒 Deskripsi Projek</h4>
+                    <p class="text-slate-300 mb-4 leading-relaxed">
+                        Implementasi VPN (Virtual Private Network) menggunakan OpenVPN untuk secure remote access dan site-to-site connectivity. 
+                        Setup mencakup PKI infrastructure, encryption configuration, dan access control policies.
+                    </p>
+
+                    <h4 class="text-lg font-bold text-orange-400 mb-3">✨ Fitur Utama</h4>
+                    <ul class="list-disc list-inside text-slate-300 mb-4 space-y-2">
+                        <li>End-to-end encryption (AES-256)</li>
+                        <li>Certificate-based authentication</li>
+                        <li>Multi-client support</li>
+                        <li>Split tunneling configuration</li>
+                        <li>Client connection logs & monitoring</li>
+                        <li>Bandwidth control per client</li>
+                        <li>DNS leak protection</li>
+                        <li>Kill switch mechanism</li>
+                    </ul>
+
+                    <h4 class="text-lg font-bold text-orange-400 mb-3">🛠️ Teknologi yang Digunakan</h4>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="px-3 py-1 bg-orange-500/10 border border-orange-500/30 text-orange-400 rounded-full text-sm">OpenVPN</span>
+                        <span class="px-3 py-1 bg-orange-500/10 border border-orange-500/30 text-orange-400 rounded-full text-sm">OpenSSL</span>
+                        <span class="px-3 py-1 bg-orange-500/10 border border-orange-500/30 text-orange-400 rounded-full text-sm">Linux Server</span>
+                        <span class="px-3 py-1 bg-orange-500/10 border border-orange-500/30 text-orange-400 rounded-full text-sm">PKI</span>
+                    </div>
+
+                    <h4 class="text-lg font-bold text-orange-400 mb-3">💡 Pembelajaran</h4>
+                    <p class="text-slate-300 leading-relaxed">
+                        Memahami encryption protocols, certificate management, tunneling concepts, dan network security best practices. 
+                        Essential untuk implementing secure remote access solutions.
+                    </p>
+                `,
+                tech: ["OpenVPN", "Enkripsi"]
+            }
+        };
+
+        // ============================================
+        // LANGUAGE SWITCHING LOGIC
+        // ============================================
+        let currentLang = localStorage.getItem('language') || 'id';
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('language', lang);
+            document.documentElement.lang = lang;
+            
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const keys = element.getAttribute('data-i18n').split('.');
+                let value = translations[lang];
+                
+                keys.forEach(key => {
+                    value = value[key];
+                });
+                
+                element.textContent = value;
+            });
+
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                if (btn.getAttribute('data-lang') === lang) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const lang = btn.getAttribute('data-lang');
+                setLanguage(lang);
+            });
+        });
+
+        setLanguage(currentLang);
+
+        // ============================================
+        // LUCIDE ICONS INITIALIZATION
+        // ============================================
+        lucide.createIcons();
+
+        // ============================================
+        // LOADING SCREEN LOGIC
+        // ============================================
+        window.addEventListener('DOMContentLoaded', function() {
+            const loadingScreen = document.getElementById('loadingScreen');
+            const loadingBar = document.getElementById('loadingBar');
+            const loadingPercentage = document.getElementById('loadingPercentage');
+            const mainContent = document.getElementById('mainContent');
+            
+            let progress = 0;
+            const loadingDuration = 3000;
+            const intervalTime = 30;
+            const increment = (intervalTime / loadingDuration) * 100;
+            
+            // Generate particles
+            const particlesContainer = document.getElementById('particles');
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                particlesContainer.appendChild(particle);
+            }
+            
+            // Loading progress animation
+            const loadingInterval = setInterval(() => {
+                progress += increment;
+                
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(loadingInterval);
+                    
+                    setTimeout(() => {
+                        loadingScreen.classList.add('hidden');
+                        mainContent.classList.add('show');
+                        
+                        // Trigger scroll animations
+                        setTimeout(() => {
+                            initScrollAnimations();
+                            lucide.createIcons();
+                        }, 100);
+                    }, 500);
+                }
+                
+                loadingBar.style.width = progress + '%';
+                loadingPercentage.textContent = Math.floor(progress) + '%';
+            }, intervalTime);
+        });
+
+        // ============================================
+        // ENHANCED SCROLL ANIMATIONS
+        // ============================================
+        function initScrollAnimations() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, observerOptions);
+
+            // Observe all animated elements
+            document.querySelectorAll('.fade-in-up, .fade-in-left, .fade-in-right, .scale-in').forEach(el => {
+                observer.observe(el);
+            });
+        }
+
+        // ============================================
+        // SMOOTH SCROLL WITH ACTIVE NAV
+        // ============================================
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                
+                if (targetSection) {
+                    document.querySelectorAll('.nav-link').forEach(link => {
+                        link.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                    
+                    targetSection.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // ============================================
+        // TAB SWITCHING LOGIC
+        // ============================================
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => {
+                el.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            document.getElementById(tabId).classList.add('active');
+            
+            const buttons = document.querySelectorAll('.tab-btn');
+            if(tabId === 'projects') buttons[0].classList.add('active');
+            if(tabId === 'certificates') buttons[1].classList.add('active');
+            if(tabId === 'skills') buttons[2].classList.add('active');
+
+            // Re-initialize scroll animations for new content
+            setTimeout(() => initScrollAnimations(), 100);
+        }
+
+        // ============================================
+        // PROJECT MODAL LOGIC
+        // ============================================
+        function openProjectModal(projectId) {
+            const modal = document.getElementById('projectModal');
+            const content = document.getElementById('projectModalContent');
+            const project = projectDetails[projectId];
+            
+            content.innerHTML = `
+                <div class="mb-6">
+                    <img src="${project.image}" alt="${project.title}" class="w-full h-64 object-cover rounded-lg border border-cyan-500/30 mb-4">
+                    <h2 class="text-3xl font-bold text-white mb-2">${project.title}</h2>
+                    <div class="flex gap-2 flex-wrap mb-4">
+                        ${project.tech.map(tech => `
+                            <span class="px-3 py-1 bg-white/5 border border-white/10 text-slate-300 rounded-full text-xs">${tech}</span>
+                        `).join('')}
+                    </div>
+                </div>
+                <div class="text-slate-300">
+                    ${project.description}
+                </div>
+            `;
+            
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            
+            setTimeout(() => lucide.createIcons(), 100);
+        }
+
+        function closeProjectModal() {
+            const modal = document.getElementById('projectModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // ============================================
+        // CERTIFICATE MODAL LOGIC WITH NAVIGATION
+        // ============================================
+        const certificateData = {
+            'img/mpy1.png': ['img/mpy1.png', 'img/mpy2.png'],
+            'img/bd1.png': ['img/bd1.png', 'img/bd2.png'],
+            'img/bpd1.png': ['img/bpd1.png', 'img/bpd2.png'],
+            'img/ac.png': ['img/ac.png'],
+            'img/mtcna.png': ['img/mtcna.png'],
+            'img/ics.png': ['img/ics.png', 'img/ics1.png'],
+            'img/nb.png': ['img/nb.png', 'img/nb1.png'],
+            'img/nd.png': ['img/nd.png', 'img/nd1.png'],
+            'img/ibm.png': ['img/ibm.png'],
+            'img/digmar.png': ['img/digmar.png', 'img/digmar1.png'],
+            'img/axel.png': ['img/axel.png'],
+            'img/acp1.png': ['img/acp1.png', 'img/acp2.png'],
+            'img/acp3.png': ['img/acp3.png', 'img/acp4.png'],
+            'img/acp5.png': ['img/acp5.png', 'img/acp6.png'],
+            'img/acp7.png': ['img/acp7.png', 'img/acp8.png'],
+            'img/acp9.png': ['img/acp9.png', 'img/acp10.png'],
+            'img/acp11.png': ['img/acp11.png', 'img/acp12.png'],
+            'img/acp13.png': ['img/acp13.png', 'img/acp14.png'],
+            'img/acp15.png': ['img/acp15.png', 'img/acp16.png'],
+            'img/acp17.png': ['img/acp17.png', 'img/acp18.png'],
+            'img/acp19.png': ['img/acp19.png'],
+            'img/acp20.png': ['img/acp20.png'],
+            'img/ac1.png': ['img/ac1.png'],
+            'img/ac2.png': ['img/ac2.png'],
+            'img/ac3.png': ['img/ac3.png'],
+            'img/ac4.png': ['img/ac4.png'],
+            'img/ac5.png': ['img/ac5.png'],
+            'img/ac6.png': ['img/ac6.png'],
+            'img/ac7.png': ['img/ac7.png'],
+            'img/ac8.png': ['img/ac8.png'],
+            'img/ac9.png': ['img/ac9.png'],
+            'img/ac10.png': ['img/ac10.png'],
+            'img/ac11.png': ['img/ac11.png'],
+            'img/ac12.png': ['img/ac12.png'],
+            'img/ac13.png': ['img/ac13.png'],
+            'img/ac15.png': ['img/ac15.png']
+        };
+
+        let currentCertImages = [];
+        let currentCertIndex = 0;
+
+        function openCertModal(imageSrc) {
+            const modal = document.getElementById('certModal');
+            const img = document.getElementById('certModalImage');
+            const prevBtn = document.getElementById('certPrevBtn');
+            const nextBtn = document.getElementById('certNextBtn');
+            const counter = document.getElementById('certCounter');
+            
+            // Get images array for this certificate
+            currentCertImages = certificateData[imageSrc] || [imageSrc];
+            currentCertIndex = 0;
+            
+            // Update UI
+            img.src = currentCertImages[currentCertIndex];
+            updateCertCounter();
+            
+            // Show/hide navigation buttons
+            if (currentCertImages.length > 1) {
+                prevBtn.style.display = 'flex';
+                nextBtn.style.display = 'flex';
+                counter.style.display = 'block';
+            } else {
+                prevBtn.style.display = 'none';
+                nextBtn.style.display = 'none';
+                counter.style.display = 'none';
+            }
+            
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            
+            setTimeout(() => lucide.createIcons(), 100);
+        }
+
+        function closeCertModal() {
+            const modal = document.getElementById('certModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+            currentCertImages = [];
+            currentCertIndex = 0;
+        }
+
+        function nextCertImage() {
+            if (currentCertImages.length <= 1) return;
+            currentCertIndex = (currentCertIndex + 1) % currentCertImages.length;
+            updateCertImage();
+        }
+
+        function prevCertImage() {
+            if (currentCertImages.length <= 1) return;
+            currentCertIndex = (currentCertIndex - 1 + currentCertImages.length) % currentCertImages.length;
+            updateCertImage();
+        }
+
+        function updateCertImage() {
+            const img = document.getElementById('certModalImage');
+            img.style.animation = 'none';
+            setTimeout(() => {
+                img.src = currentCertImages[currentCertIndex];
+                img.style.animation = 'certZoomIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                updateCertCounter();
+            }, 50);
+        }
+
+        function updateCertCounter() {
+            const counter = document.getElementById('certCounter');
+            counter.textContent = `${currentCertIndex + 1} / ${currentCertImages.length}`;
+        }
+
+        // Close modals on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeProjectModal();
+                closeCertModal();
+                closeGallery();
+                closeEduPhoto();
+                closeSttPhoto();
+            }
+        });
+
+        // Close modals on backdrop click
+        document.getElementById('projectModal')?.addEventListener('click', (e) => {
+            if (e.target.id === 'projectModal') {
+                closeProjectModal();
+            }
+        });
+
+        document.getElementById('certModal')?.addEventListener('click', (e) => {
+            if (e.target.id === 'certModal') {
+                closeCertModal();
+            }
+        });
+
+        // ============================================
+        // CAROUSEL LOGIC FOR CERTIFICATES
+        // ============================================
+        document.querySelectorAll('.certifications-carousel').forEach(carousel => {
+            const track = carousel.querySelector('.carousel-track');
+            const slides = carousel.querySelectorAll('.cert-slide');
+            const nextBtn = carousel.querySelector('.next');
+            const prevBtn = carousel.querySelector('.prev');
+            let index = 0;
+
+            if (slides.length <= 1) {
+                if(nextBtn) nextBtn.style.display = 'none';
+                if(prevBtn) prevBtn.style.display = 'none';
+                return;
+            }
+
+            nextBtn?.addEventListener('click', (e) => {
+                e.stopPropagation();
+                index = (index + 1) % slides.length;
+                updateCarousel();
+            });
+
+            prevBtn?.addEventListener('click', (e) => {
+                e.stopPropagation();
+                index = (index - 1 + slides.length) % slides.length;
+                updateCarousel();
+            });
+
+            function updateCarousel() {
+                track.style.transform = `translateX(-${index * 100}%)`;
+            }
+        });
+
+        // ============================================
+        // GALLERY MODAL LOGIC
+        // ============================================
+        const galleryData = {
+            freelance: [
+                { src: 'img/WhatsApp Image 2026-02-17 at 11.15.58 AM.jpeg', caption: 'Penyusunan Laporan PKL Client' },
+                { src: 'img/menu_lumbeefNEW.png', caption: 'Desain Menu — Lumbee Project' },
+                { src: 'img/freelance-3.jpg', caption: 'Video Editing & Personal Branding' }
+            ],
+            mabito: [
+                { src: 'img/mabito-1.jpg', caption: 'Perakitan Laptop Axioo' },
+                { src: 'img/mabito-2.jpg', caption: 'Quality Control Station' },
+                { src: 'img/mabito-3.jpg', caption: 'Dokumentasi Operasional' }
+            ],
+            smk: [
+                { src: 'img/edu-smk-1.jpg', caption: 'SMK Negeri 1 Purwakarta — Dokumentasi 1' },
+                { src: 'img/edu-smk-2.jpg', caption: 'SMK Negeri 1 Purwakarta — Dokumentasi 2' },
+                { src: 'img/edu-smk-3.jpg', caption: 'SMK Negeri 1 Purwakarta — Dokumentasi 3' }
+            ],
+            stt: [
+                { src: 'img/edu-stt-1.jpg', caption: 'STT Wastukancana Purwakarta — Dokumentasi 1' },
+                { src: 'img/edu-stt-2.jpg', caption: 'STT Wastukancana Purwakarta — Dokumentasi 2' },
+                { src: 'img/edu-stt-3.jpg', caption: 'STT Wastukancana Purwakarta — Dokumentasi 3' }
+            ]
+        };
+
+        let currentGallery = [];
+        let currentImageIndex = 0;
+
+        function openGallery(type, startIndex = 0) {
+            currentGallery = galleryData[type];
+            currentImageIndex = startIndex;
+            
+            const modal = document.getElementById('galleryModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            
+            updateGalleryDisplay();
+            document.body.style.overflow = 'hidden';
+            
+            lucide.createIcons();
+        }
+
+        function closeGallery() {
+            const modal = document.getElementById('galleryModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = '';
+        }
+
+        function updateGalleryDisplay() {
+            const mainImage = document.getElementById('galleryMainImage');
+            const counter = document.getElementById('galleryCounter');
+            const caption = document.getElementById('galleryCaption');
+            const thumbnails = document.getElementById('galleryThumbnails');
+            
+            const current = currentGallery[currentImageIndex];
+            mainImage.src = current.src;
+            mainImage.alt = current.caption;
+            counter.textContent = `${currentImageIndex + 1} / ${currentGallery.length}`;
+            if (caption) caption.textContent = current.caption;
+            
+            thumbnails.innerHTML = '';
+            currentGallery.forEach((item, index) => {
+                const thumb = document.createElement('div');
+                thumb.className = 'flex-shrink-0 cursor-pointer';
+                thumb.style.cssText = `
+                    width: 72px; height: 72px;
+                    border-radius: 6px;
+                    overflow: hidden;
+                    border: 2px solid ${index === currentImageIndex ? 'var(--neon-cyan)' : 'rgba(255,255,255,0.1)'};
+                    box-shadow: ${index === currentImageIndex ? '0 0 12px rgba(0,243,255,0.4)' : 'none'};
+                    transition: all 0.3s ease;
+                    opacity: ${index === currentImageIndex ? '1' : '0.5'};
+                `;
+                thumb.innerHTML = `<img src="${item.src}" alt="${item.caption}" style="width:100%;height:100%;object-fit:cover;object-position:center;">`;
+                thumb.onclick = () => {
+                    currentImageIndex = index;
+                    updateGalleryDisplay();
+                };
+                thumbnails.appendChild(thumb);
+            });
+            
+            lucide.createIcons();
+        }
+
+        function nextImage() {
+            currentImageIndex = (currentImageIndex + 1) % currentGallery.length;
+            updateGalleryDisplay();
+        }
+
+        function prevImage() {
+            currentImageIndex = (currentImageIndex - 1 + currentGallery.length) % currentGallery.length;
+            updateGalleryDisplay();
+        }
+
+        // ============================================
+        // NAVBAR SCROLL EFFECT
+        // ============================================
+        const mainNav = document.getElementById('mainNav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 20) {
+                mainNav.classList.add('scrolled');
+            } else {
+                mainNav.classList.remove('scrolled');
+            }
+
+            // Active nav link on scroll
+            const sections = document.querySelectorAll('section[id]');
+            const scrollY = window.pageYOffset;
+            sections.forEach(section => {
+                const sectionHeight = section.offsetHeight;
+                const sectionTop = section.offsetTop - 100;
+                const sectionId = section.getAttribute('id');
+                if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+                    document.querySelectorAll('.nav-link').forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === `#${sectionId}`) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        });
+
+        function toggleMobileMenu() {
+            document.getElementById('mobileMenu').classList.toggle('open');
+        }
+
+        function closeMobileMenu() {
+            document.getElementById('mobileMenu').classList.remove('open');
+        }
+
+        // ============================================
+        // EDUCATION PHOTO GALLERY
+        // ============================================
+        const eduPhotos = [
+            'img/edu-smk-1.jpg',
+            'img/edu-smk-2.jpg',
+            'img/edu-smk-3.jpg'
+        ];
+        let currentEduIndex = 0;
+
+        function openEduPhoto(src, index) {
+            currentEduIndex = index;
+            const modal = document.getElementById('eduPhotoModal');
+            const img = document.getElementById('eduPhotoImage');
+            img.src = eduPhotos[currentEduIndex];
+            document.getElementById('eduPhotoCounter').textContent = `${currentEduIndex + 1} / ${eduPhotos.length}`;
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            setTimeout(() => lucide.createIcons(), 100);
+        }
+
+        function closeEduPhoto() {
+            document.getElementById('eduPhotoModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function nextEduPhoto() {
+            currentEduIndex = (currentEduIndex + 1) % eduPhotos.length;
+            const img = document.getElementById('eduPhotoImage');
+            img.style.animation = 'none';
+            setTimeout(() => {
+                img.src = eduPhotos[currentEduIndex];
+                img.style.animation = 'certZoomIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                document.getElementById('eduPhotoCounter').textContent = `${currentEduIndex + 1} / ${eduPhotos.length}`;
+            }, 50);
+        }
+
+        function prevEduPhoto() {
+            currentEduIndex = (currentEduIndex - 1 + eduPhotos.length) % eduPhotos.length;
+            const img = document.getElementById('eduPhotoImage');
+            img.style.animation = 'none';
+            setTimeout(() => {
+                img.src = eduPhotos[currentEduIndex];
+                img.style.animation = 'certZoomIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                document.getElementById('eduPhotoCounter').textContent = `${currentEduIndex + 1} / ${eduPhotos.length}`;
+            }, 50);
+        }
+
+        // Close edu photo on backdrop click
+        document.getElementById('eduPhotoModal')?.addEventListener('click', (e) => {
+            if (e.target.id === 'eduPhotoModal') closeEduPhoto();
+        });
+
+        // ============================================
+        // STT PHOTO GALLERY
+        // ============================================
+        const sttPhotos = [
+            'img/edu-stt-1.jpg',
+            'img/edu-stt-2.jpg',
+            'img/edu-stt-3.jpg'
+        ];
+        let currentSttIndex = 0;
+
+        function openSttPhoto(src, index) {
+            currentSttIndex = index;
+            const modal = document.getElementById('sttPhotoModal');
+            const img = document.getElementById('sttPhotoImage');
+            img.src = sttPhotos[currentSttIndex];
+            document.getElementById('sttPhotoCounter').textContent = `${currentSttIndex + 1} / ${sttPhotos.length}`;
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            setTimeout(() => lucide.createIcons(), 100);
+        }
+
+        function closeSttPhoto() {
+            document.getElementById('sttPhotoModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function nextSttPhoto() {
+            currentSttIndex = (currentSttIndex + 1) % sttPhotos.length;
+            const img = document.getElementById('sttPhotoImage');
+            img.style.animation = 'none';
+            setTimeout(() => {
+                img.src = sttPhotos[currentSttIndex];
+                img.style.animation = 'certZoomIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                document.getElementById('sttPhotoCounter').textContent = `${currentSttIndex + 1} / ${sttPhotos.length}`;
+            }, 50);
+        }
+
+        function prevSttPhoto() {
+            currentSttIndex = (currentSttIndex - 1 + sttPhotos.length) % sttPhotos.length;
+            const img = document.getElementById('sttPhotoImage');
+            img.style.animation = 'none';
+            setTimeout(() => {
+                img.src = sttPhotos[currentSttIndex];
+                img.style.animation = 'certZoomIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                document.getElementById('sttPhotoCounter').textContent = `${currentSttIndex + 1} / ${sttPhotos.length}`;
+            }, 50);
+        }
+
+        // Close STT photo on backdrop click
+        document.getElementById('sttPhotoModal')?.addEventListener('click', (e) => {
+            if (e.target.id === 'sttPhotoModal') closeSttPhoto();
+        });
+
+        // Gallery keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            const galleryModal = document.getElementById('galleryModal');
+            const certModal = document.getElementById('certModal');
+
+            if (galleryModal && !galleryModal.classList.contains('hidden')) {
+                if (e.key === 'ArrowRight') nextImage();
+                if (e.key === 'ArrowLeft') prevImage();
+            }
+
+            if (certModal && certModal.classList.contains('active')) {
+                if (e.key === 'ArrowRight') nextCertImage();
+                if (e.key === 'ArrowLeft') prevCertImage();
+            }
+        });
+
+        document.getElementById('galleryModal')?.addEventListener('click', (e) => {
+            if (e.target.id === 'galleryModal') {
+                closeGallery();
+            }
+        });
+    </script>
+</body>
+</html>
